@@ -76,7 +76,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	var Demo1 = __webpack_require__(270);var Demo2 = __webpack_require__(680);var DemoArray = [{ "example": _react2['default'].createElement(Demo1, null), "title": " 普通表格基本示例", "code": "/**\r\n*\r\n* @title 普通表格基本示例\r\n* @description 普通表格基本示例\r\n*\r\n*/\r\nimport React, { Component } from 'react';\r\nimport data from './data';\r\nimport { Grid } from 'qmac-gridcn/build/index';\r\n\r\nclass Demo1 extends Component {\r\n    constructor(props){\r\n        super(props);\r\n        this.column = [\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工姓名\",\r\n                dataIndex: \"name\",\r\n                key: \"name\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"员工性别\",\r\n                dataIndex: \"sexEnumValue\",\r\n                key: \"sexEnumValue\",\r\n                width: 120,\r\n                \r\n            },\r\n            {\r\n                title: \"工龄\",\r\n                dataIndex: \"serviceYears\",\r\n                key: \"serviceYears\",\r\n                width: 130,\r\n                \r\n            },\r\n            {\r\n                title: \"司龄\",\r\n                dataIndex: \"serviceYearsCompany\",\r\n                key: \"serviceYearsCompany\",\r\n                width: 130,\r\n            },\r\n            {\r\n                title: \"年份\",\r\n                dataIndex: \"year\",\r\n                key: \"year\",\r\n                width: 100,\r\n            },\r\n            {\r\n                title: \"月份\",\r\n                dataIndex: \"monthEnumValue\",\r\n                key: \"monthEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"补贴类别\",\r\n                dataIndex: \"allowanceTypeEnumValue\",\r\n                key: \"allowanceTypeEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"补贴标准\",\r\n                dataIndex: \"allowanceStandard\",\r\n                key: \"allowanceStandard\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"实际补贴\",\r\n                dataIndex: \"allowanceActual\",\r\n                key: \"allowanceActual\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"是否超标\",\r\n                dataIndex: \"exdeedsEnumValue\",\r\n                key: \"exdeedsEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"领取方式\",\r\n                dataIndex: \"pickTypeEnumValue\",\r\n                key: \"pickTypeEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"备注\",\r\n                dataIndex: \"remark\",\r\n                key: \"remark\",\r\n                width: 100,\r\n            }\r\n        ];\r\n        this.state={\r\n            activePage:1,\r\n            total:100,\r\n            items:10\r\n        }\r\n    }\r\n    /**\r\n     * 跳转指定页码\r\n     *\r\n     * @param {*} pageIndex\r\n     */\r\n    freshData = (pageIndex) => {\r\n        console.log('freshData')\r\n    }\r\n\r\n    /**\r\n     * 分页  跳转指定页数和设置一页数据条数\r\n     *\r\n     * @param {*} index\r\n     * @param {*} value\r\n     */\r\n    onDataNumSelect = (index, value) => {\r\n        console.log('onDataNumSelect')\r\n    }\r\n\r\n    /**\r\n     * type为0标识为pageIndex,为1标识pageSize\r\n     *\r\n     * @param {*} value\r\n     * @param {*} type\r\n     */\r\n    onPageSelect = (value, type) => {\r\n        console.log('onPageSelect')\r\n    }\r\n    getSelectedDataFunc=()=>{\r\n        console.log('getSelectedDataFunc')\r\n    }\r\n\r\n    getAllData=()=>{\r\n        console.log(this.grid.allData)\r\n    }\r\n    \r\n    changPag=()=>{\r\n        this.setState({\r\n            activePage:2,\r\n            total:50,\r\n            items:20\r\n        })\r\n    }\r\n    \r\n    render () {\r\n        let paginationObj = {\r\n            activePage: this.state.activePage,//当前页\r\n            total: this.state.total,//总条数\r\n            items: this.state.items,\r\n            freshData: this.freshData,//刷新数据\r\n            onDataNumSelect: this.onDataNumSelect,//选择记录行\r\n            // disabled: false//分页条禁用状态\r\n        }\r\n        return (\r\n            <div className='grid-parent'>\r\n                <Grid\r\n                    ref={(el) => this.grid = el}//ref用于调用内部方法\r\n                    data={data}//数据\r\n                    columns={this.column}//定义列\r\n                    paginationObj={paginationObj}//分页数据\r\n                    getSelectedDataFunc={this.getSelectedDataFunc}//选择数据后的回调\r\n                />\r\n            </div>\r\n        )\r\n    }\r\n}\r\nexport default Demo1", "desc": " 普通表格基本示例" }, { "example": _react2['default'].createElement(Demo2, null), "title": " 编辑表格基本示例", "code": "/**\r\n*\r\n* @title 编辑表格基本示例\r\n* @description 编辑表格基本示例\r\n*\r\n*/\r\nimport React, { Component } from 'react';\nimport { Button } from 'tinper-bee';\r\nimport data from './data';\r\nimport { EditGrid } from 'qmac-gridcn/build/index'\r\nimport moment from 'moment';\r\n\n\r\nclass Demo2 extends Component {\r\n    constructor(props){\r\n        super(props);\r\n        this.column = [\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工姓名\",\r\n                dataIndex: \"name\",\r\n                key: \"name\",\r\n                width: 120,\r\n                renderType:'input',\r\n                required:true,\r\n                validate:true,\r\n                fieldProps:{\r\n                    defaultValue:'姓名'\r\n                },\r\n            },\r\n            {\r\n                title: \"员工性别\",\r\n                dataIndex: \"sex\",\r\n                key: \"sex\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                validate:true,\r\n                fieldProps:{\r\n                    allowClear:true,\r\n                    defaultValue:'1',\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: '',\r\n                    }, {\r\n                        key: \"男\",\r\n                        value: '1'\r\n                    }, {\r\n                        key: \"女\",\r\n                        value: '0'\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"工龄\",\r\n                dataIndex: \"serviceYears\",\r\n                key: \"serviceYears\",\r\n                width: 130,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n                fieldProps:{\r\n                    defaultValue:2\r\n                }\r\n            },\r\n            {\r\n                title: \"司龄\",\r\n                dataIndex: \"serviceYearsCompany\",\r\n                key: \"serviceYearsCompany\",\r\n                width: 130,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n            },\r\n            {\r\n                title: \"年份\",\r\n                dataIndex: \"year\",\r\n                key: \"year\",\r\n                width: 100,\r\n                renderType:'year',\r\n                required:true,\r\n                fieldProps:{\r\n                    defaultValue:'2018'\r\n                },\r\n                render:(text, record, index)=>{\r\n                    return moment(text).format('YYYY');\r\n                }\r\n            },\r\n            {\r\n                title: \"月份\",\r\n                dataIndex: \"month\",\r\n                key: \"month\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                fieldProps:{\r\n                    data:[{//月份\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"一月\",\r\n                        value: 1\r\n                    }, {\r\n                        key: \"二月\",\r\n                        value: 2\r\n                    }, {\r\n                        key: \"三月\",\r\n                        value: 3\r\n                    }, {\r\n                        key: \"四月\",\r\n                        value: 4\r\n                    }, {\r\n                        key: \"五月\",\r\n                        value: 5\r\n                    }, {\r\n                        key: \"六月\",\r\n                        value: 6\r\n                    }, {\r\n                        key: \"七月\",\r\n                        value: 7\r\n                    }, {\r\n                        key: \"八月\",\r\n                        value: 8\r\n                    }, {\r\n                        key: \"九月\",\r\n                        value: 9\r\n                    }, {\r\n                        key: \"十月\",\r\n                        value: 10\r\n                    }, {\r\n                        key: \"十一月\",\r\n                        value: 11\r\n                    }, {\r\n                        key: \"十二月\",\r\n                        value: 12\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"补贴类别\",\r\n                dataIndex: \"allowanceType\",\r\n                key: \"allowanceType\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                fieldProps:{\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"电脑补助\",\r\n                        value: 1\r\n                    }, {\r\n                        key: \"住宿补助\",\r\n                        value: 2\r\n                    }, {\r\n                        key: \"交通补助\",\r\n                        value: 3\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"补贴标准\",\r\n                dataIndex: \"allowanceStandard\",\r\n                key: \"allowanceStandard\",\r\n                width: 120,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n                fieldProps:{\r\n                    max: 999999,\r\n                    min: 0,\r\n                    step: 1,\r\n                    precision: 2\r\n                },\r\n            },\r\n            {\r\n                title: \"实际补贴\",\r\n                dataIndex: \"allowanceActual\",\r\n                key: \"allowanceActual\",\r\n                width: 120,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n                fieldProps:{\r\n                    max: 999999,\r\n                    min: 0,\r\n                    step: 1,\r\n                    precision: 2\r\n                },\r\n            },\r\n            {\r\n                title: \"是否超标\",\r\n                dataIndex: \"exdeeds\",\r\n                key: \"exdeeds\",\r\n                width: 120,\r\n                required:true,\r\n                renderType:'select',\r\n                fieldProps:{\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"未超标\",\r\n                        value: 0\r\n                    }, {\r\n                        key: \"超标\",\r\n                        value: 1\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"领取方式\",\r\n                dataIndex: \"pickType\",\r\n                key: \"pickType\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                fieldProps:{\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"转账\",\r\n                        value: 1\r\n                    }, {\r\n                        key: \"现金\",\r\n                        value: 2\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"备注\",\r\n                dataIndex: \"remark\",\r\n                key: \"remark\",\r\n                width: 100,\r\n                renderType:'input',\r\n                required:false,\r\n            }\r\n        ];\r\n        this.state={\r\n            activePage:1,\r\n            total:100,\r\n            items:10\r\n        }\r\n    }\r\n    /**\r\n     * 跳转指定页码\r\n     *\r\n     * @param {*} pageIndex\r\n     */\r\n    freshData = (pageIndex) => {\r\n        console.log('freshData')\r\n    }\r\n\r\n    /**\r\n     * 分页  跳转指定页数和设置一页数据条数\r\n     *\r\n     * @param {*} index\r\n     * @param {*} value\r\n     */\r\n    onDataNumSelect = (index, value) => {\r\n        console.log('onDataNumSelect')\r\n    }\r\n\r\n    /**\r\n     * type为0标识为pageIndex,为1标识pageSize\r\n     *\r\n     * @param {*} value\r\n     * @param {*} type\r\n     */\r\n    onPageSelect = (value, type) => {\r\n        console.log('onPageSelect')\r\n    }\r\n\r\n    getAllData=()=>{\r\n        console.log(this.grid.allData)\r\n    }\r\n    getSelectData=()=>{\r\n        console.log(this.grid.selectList)\r\n    }\r\n    validate=()=>{\r\n        let error = this.grid.validate();\r\n        if(error){\r\n            alert('数据校验失败，错误信息见控制台');\r\n            console.log(error)\r\n        }else{\r\n            alert('数据校验成功')\r\n        }\r\n    }\r\n    validateSelect=()=>{\r\n        let error = this.grid.validateSelect();\r\n        if(error){\r\n            alert('数据校验失败，错误信息见控制台');\r\n            console.log(error)\r\n        }else{\r\n            alert('数据校验成功')\r\n        }\r\n    }\r\n    changPag=()=>{\r\n        this.setState({\r\n            activePage:2,\r\n            total:50,\r\n            items:20\r\n        })\r\n    }\r\n    \r\n    render () {\r\n        let paginationObj = {\r\n            activePage: this.state.activePage,//当前页\r\n            total: this.state.total,//总条数\r\n            items: this.state.items,\r\n            freshData: this.freshData,//刷新数据\r\n            onDataNumSelect: this.onDataNumSelect,//选择记录行\r\n            // disabled: false//分页条禁用状态\r\n        }\r\n        return (\r\n            <div className='grid-parent'>\r\n                <div style={{'marginBottom':'20px'}}>\r\n                    <Button onClick={this.changPag} colors=\"primary\" >改变分页</Button>\r\n                    <Button onClick={this.getAllData} colors=\"primary\" style={{'marginLeft':'20px'}} >获得所有数据</Button>\r\n                    <Button onClick={this.getSelectData} colors=\"primary\" style={{'marginLeft':'20px'}} >获得选中数据</Button>\r\n                    <Button onClick={this.validate} colors=\"primary\" style={{'marginLeft':'20px'}}>主动校验</Button>\r\n                    <Button onClick={this.validateSelect} colors=\"primary\" style={{'marginLeft':'20px'}}>主动校验选中数据</Button>\r\n                </div>\r\n                \r\n                <EditGrid\r\n                    ref={(el) => this.grid = el}//ref用于调用内部方法\r\n                    data={data}//数据\r\n                    columns={this.column}//定义列\r\n                    paginationObj={paginationObj}//分页数据\r\n                    excludeKeys={['id','ts','lastModified']}\r\n                    delRow={(selectList,newData)=>{\r\n                        console.log('删除，数据如下-----------',selectList)\r\n                        console.log('新的数据如下-----------',newData)\r\n                    }}\r\n                    save={(selectList)=>{\r\n                        console.log('保存，数据如下-----------',selectList)\r\n                    }}\r\n                    headerScroll={true}\r\n                    title=\"我是标题\"\r\n                />\r\n            </div>\r\n        )\r\n    }\r\n}\r\nexport default Demo2", "desc": " 编辑表格基本示例" }];
+	var Demo1 = __webpack_require__(270);var Demo2 = __webpack_require__(680);var DemoArray = [{ "example": _react2['default'].createElement(Demo1, null), "title": " 普通表格基本示例", "code": "/**\r\n*\r\n* @title 普通表格基本示例\r\n* @description 普通表格基本示例\r\n*\r\n*/\r\nimport React, { Component } from 'react';\r\nimport data from './data';\r\nimport { Grid } from 'qmac-gridcn/build/index';\r\n\r\nclass Demo1 extends Component {\r\n    constructor(props){\r\n        super(props);\r\n        this.column = [\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150,\r\n            },\r\n            {\r\n                title: \"员工姓名\",\r\n                dataIndex: \"name\",\r\n                key: \"name\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"员工性别\",\r\n                dataIndex: \"sexEnumValue\",\r\n                key: \"sexEnumValue\",\r\n                width: 120,\r\n                \r\n            },\r\n            {\r\n                title: \"工龄\",\r\n                dataIndex: \"serviceYears\",\r\n                key: \"serviceYears\",\r\n                width: 130,\r\n                \r\n            },\r\n            {\r\n                title: \"司龄\",\r\n                dataIndex: \"serviceYearsCompany\",\r\n                key: \"serviceYearsCompany\",\r\n                width: 130,\r\n            },\r\n            {\r\n                title: \"年份\",\r\n                dataIndex: \"year\",\r\n                key: \"year\",\r\n                width: 100,\r\n            },\r\n            {\r\n                title: \"月份\",\r\n                dataIndex: \"monthEnumValue\",\r\n                key: \"monthEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"补贴类别\",\r\n                dataIndex: \"allowanceTypeEnumValue\",\r\n                key: \"allowanceTypeEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"补贴标准\",\r\n                dataIndex: \"allowanceStandard\",\r\n                key: \"allowanceStandard\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"实际补贴\",\r\n                dataIndex: \"allowanceActual\",\r\n                key: \"allowanceActual\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"是否超标\",\r\n                dataIndex: \"exdeedsEnumValue\",\r\n                key: \"exdeedsEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"领取方式\",\r\n                dataIndex: \"pickTypeEnumValue\",\r\n                key: \"pickTypeEnumValue\",\r\n                width: 120,\r\n            },\r\n            {\r\n                title: \"备注\",\r\n                dataIndex: \"remark\",\r\n                key: \"remark\",\r\n                width: 100,\r\n            }\r\n        ];\r\n        this.state={\r\n            activePage:1,\r\n            total:100,\r\n            items:10\r\n        }\r\n    }\r\n    /**\r\n     * 跳转指定页码\r\n     *\r\n     * @param {*} pageIndex\r\n     */\r\n    freshData = (pageIndex) => {\r\n        console.log('freshData')\r\n    }\r\n\r\n    /**\r\n     * 分页  跳转指定页数和设置一页数据条数\r\n     *\r\n     * @param {*} index\r\n     * @param {*} value\r\n     */\r\n    onDataNumSelect = (index, value) => {\r\n        console.log('onDataNumSelect')\r\n    }\r\n\r\n    /**\r\n     * type为0标识为pageIndex,为1标识pageSize\r\n     *\r\n     * @param {*} value\r\n     * @param {*} type\r\n     */\r\n    onPageSelect = (value, type) => {\r\n        console.log('onPageSelect')\r\n    }\r\n    getSelectedDataFunc=()=>{\r\n        console.log('getSelectedDataFunc')\r\n    }\r\n\r\n    getAllData=()=>{\r\n        console.log(this.grid.allData)\r\n    }\r\n    \r\n    changPag=()=>{\r\n        this.setState({\r\n            activePage:2,\r\n            total:50,\r\n            items:20\r\n        })\r\n    }\r\n    \r\n    render () {\r\n        let paginationObj = {\r\n            activePage: this.state.activePage,//当前页\r\n            total: this.state.total,//总条数\r\n            items: this.state.items,\r\n            freshData: this.freshData,//刷新数据\r\n            onDataNumSelect: this.onDataNumSelect,//选择记录行\r\n            // disabled: false//分页条禁用状态\r\n        }\r\n        return (\r\n            <div className='grid-parent'>\r\n                <Grid\r\n                    ref={(el) => this.grid = el}//ref用于调用内部方法\r\n                    data={data}//数据\r\n                    columns={this.column}//定义列\r\n                    paginationObj={paginationObj}//分页数据\r\n                    getSelectedDataFunc={this.getSelectedDataFunc}//选择数据后的回调\r\n                />\r\n            </div>\r\n        )\r\n    }\r\n}\r\nexport default Demo1", "desc": " 普通表格基本示例" }, { "example": _react2['default'].createElement(Demo2, null), "title": " 编辑表格基本示例", "code": "/**\r\n*\r\n* @title 编辑表格基本示例\r\n* @description 编辑表格基本示例\r\n*\r\n*/\r\nimport React, { Component } from 'react';\nimport { Button } from 'tinper-bee';\r\nimport data from './data';\r\nimport { EditGrid } from 'qmac-gridcn/build/index'\r\nimport moment from 'moment';\r\n\nimport BtnDiv from '../BtnDiv'\r\n\r\nclass Demo2 extends Component {\r\n    constructor(props){\r\n        super(props);\r\n        this.column = [\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150,\r\n            },\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工编号\",\r\n                dataIndex: \"code\",\r\n                key: \"code\",\r\n                width: 150\r\n            },\r\n            {\r\n                title: \"员工姓名\",\r\n                dataIndex: \"name\",\r\n                key: \"name\",\r\n                width: 120,\r\n                renderType:'input',\r\n                required:true,\r\n                validate:true,\r\n                fieldProps:{\r\n                    maxLength:'10',\r\n                    defaultValue:'姓名'\r\n                },\r\n            },\r\n            {\r\n                title: \"员工性别\",\r\n                dataIndex: \"sex\",\r\n                key: \"sex\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                validate:true,\r\n                fieldProps:{\r\n                    allowClear:true,\r\n                    defaultValue:'1',\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: '',\r\n                    }, {\r\n                        key: \"男\",\r\n                        value: '1'\r\n                    }, {\r\n                        key: \"女\",\r\n                        value: '0'\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"工龄\",\r\n                dataIndex: \"serviceYears\",\r\n                key: \"serviceYears\",\r\n                width: 130,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n                fieldProps:{\r\n                    defaultValue:2\r\n                }\r\n            },\r\n            {\r\n                title: \"司龄\",\r\n                dataIndex: \"serviceYearsCompany\",\r\n                key: \"serviceYearsCompany\",\r\n                width: 130,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n            },\r\n            {\r\n                title: \"年份\",\r\n                dataIndex: \"year\",\r\n                key: \"year\",\r\n                width: 100,\r\n                renderType:'year',\r\n                required:true,\r\n                fieldProps:{\r\n                    defaultValue:'2018'\r\n                },\r\n                render:(text, record, index)=>{\r\n                    return moment(text).format('YYYY');\r\n                }\r\n            },\r\n            {\r\n                title: \"月份\",\r\n                dataIndex: \"month\",\r\n                key: \"month\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                fieldProps:{\r\n                    data:[{//月份\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"一月\",\r\n                        value: 1\r\n                    }, {\r\n                        key: \"二月\",\r\n                        value: 2\r\n                    }, {\r\n                        key: \"三月\",\r\n                        value: 3\r\n                    }, {\r\n                        key: \"四月\",\r\n                        value: 4\r\n                    }, {\r\n                        key: \"五月\",\r\n                        value: 5\r\n                    }, {\r\n                        key: \"六月\",\r\n                        value: 6\r\n                    }, {\r\n                        key: \"七月\",\r\n                        value: 7\r\n                    }, {\r\n                        key: \"八月\",\r\n                        value: 8\r\n                    }, {\r\n                        key: \"九月\",\r\n                        value: 9\r\n                    }, {\r\n                        key: \"十月\",\r\n                        value: 10\r\n                    }, {\r\n                        key: \"十一月\",\r\n                        value: 11\r\n                    }, {\r\n                        key: \"十二月\",\r\n                        value: 12\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"补贴类别\",\r\n                dataIndex: \"allowanceType\",\r\n                key: \"allowanceType\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                fieldProps:{\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"电脑补助\",\r\n                        value: 1\r\n                    }, {\r\n                        key: \"住宿补助\",\r\n                        value: 2\r\n                    }, {\r\n                        key: \"交通补助\",\r\n                        value: 3\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"补贴标准\",\r\n                dataIndex: \"allowanceStandard\",\r\n                key: \"allowanceStandard\",\r\n                width: 120,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n                fieldProps:{\r\n                    max: 999999,\r\n                    min: 0,\r\n                    step: 1,\r\n                    precision: 2\r\n                },\r\n            },\r\n            {\r\n                title: \"实际补贴\",\r\n                dataIndex: \"allowanceActual\",\r\n                key: \"allowanceActual\",\r\n                width: 120,\r\n                className: 'column-number-right ', // 靠右对齐\r\n                renderType:'inputNumber',\r\n                required:true,\r\n                fieldProps:{\r\n                    max: 999999,\r\n                    min: 0,\r\n                    step: 1,\r\n                    precision: 2\r\n                },\r\n            },\r\n            {\r\n                title: \"是否超标\",\r\n                dataIndex: \"exdeeds\",\r\n                key: \"exdeeds\",\r\n                width: 120,\r\n                required:true,\r\n                renderType:'select',\r\n                fieldProps:{\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"未超标\",\r\n                        value: 0\r\n                    }, {\r\n                        key: \"超标\",\r\n                        value: 1\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"领取方式\",\r\n                dataIndex: \"pickType\",\r\n                key: \"pickType\",\r\n                width: 120,\r\n                renderType:'select',\r\n                required:true,\r\n                fieldProps:{\r\n                    data:[{\r\n                        key: \"请选择\",\r\n                        value: \"\",\r\n                        disabled: true\r\n                    }, {\r\n                        key: \"转账\",\r\n                        value: 1\r\n                    }, {\r\n                        key: \"现金\",\r\n                        value: 2\r\n                    }]\r\n                },\r\n            },\r\n            {\r\n                title: \"备注\",\r\n                dataIndex: \"remark\",\r\n                key: \"remark\",\r\n                width: 100,\r\n                renderType:'input',\r\n                required:false,\r\n            }\r\n        ];\r\n        this.state={\r\n            activePage:1,\r\n            total:100,\r\n            items:10\r\n        }\r\n    }\r\n    /**\r\n     * 跳转指定页码\r\n     *\r\n     * @param {*} pageIndex\r\n     */\r\n    freshData = (pageIndex) => {\r\n        console.log('freshData')\r\n    }\r\n\r\n    /**\r\n     * 分页  跳转指定页数和设置一页数据条数\r\n     *\r\n     * @param {*} index\r\n     * @param {*} value\r\n     */\r\n    onDataNumSelect = (index, value) => {\r\n        console.log('onDataNumSelect')\r\n    }\r\n\r\n    /**\r\n     * type为0标识为pageIndex,为1标识pageSize\r\n     *\r\n     * @param {*} value\r\n     * @param {*} type\r\n     */\r\n    onPageSelect = (value, type) => {\r\n        console.log('onPageSelect')\r\n    }\r\n\r\n    getAllData=()=>{\r\n        console.log(this.grid.allData)\r\n    }\r\n    getSelectData=()=>{\r\n        console.log(this.grid.selectList)\r\n    }\r\n    validate=()=>{\r\n        let error = this.grid.validate();\r\n        if(error){\r\n            alert('数据校验失败，错误信息见控制台');\r\n            console.log(error)\r\n        }else{\r\n            alert('数据校验成功')\r\n        }\r\n    }\r\n    validateSelect=()=>{\r\n        let error = this.grid.validateSelect();\r\n        if(error){\r\n            alert('数据校验失败，错误信息见控制台');\r\n            console.log(error)\r\n        }else{\r\n            alert('数据校验成功')\r\n        }\r\n    }\r\n\r\n    changPag=()=>{\r\n        this.setState({\r\n            activePage:2,\r\n            total:50,\r\n            items:20\r\n        })\r\n    }\r\n    addRow=()=>{\r\n        this.grid.addRow()\r\n    }\r\n    updateAll=()=>{\r\n\r\n        this.grid.updateAll()\r\n    }\r\n    delRow=()=>{\r\n        this.grid.delRow()\r\n    }\r\n    copyRow=()=>{\r\n        this.grid.copyRow()\r\n    }\r\n    copyToEnd=()=>{\r\n        this.grid.copyToEnd()\r\n    }\r\n    save=()=>{\r\n        //拿到添加的数据\r\n        //this.grid.selectList\r\n        //进行业务上的其它校验\r\n        //校验没有问题保存记录\r\n        this.grid.save();\r\n    }\r\n    cancelEdit=()=>{\r\n        this.grid.cancelEdit();\r\n    }\r\n\r\n    render () {\r\n        let paginationObj = {\r\n            activePage: this.state.activePage,//当前页\r\n            total: this.state.total,//总条数\r\n            items: this.state.items,\r\n            freshData: this.freshData,//刷新数据\r\n            onDataNumSelect: this.onDataNumSelect,//选择记录行\r\n            // disabled: false//分页条禁用状态\r\n        }\r\n        return (\r\n            <div className='grid-parent'>\r\n                {/*<div style={{'marginBottom':'20px'}}>*/}\r\n                    {/*<Button onClick={this.changPag} colors=\"primary\" >改变分页</Button>*/}\r\n                    {/*<Button onClick={this.getAllData} colors=\"primary\" style={{'marginLeft':'20px'}} >获得所有数据</Button>*/}\r\n                    {/*<Button onClick={this.getSelectData} colors=\"primary\" style={{'marginLeft':'20px'}} >获得选中数据</Button>*/}\r\n                    {/*<Button onClick={this.validate} colors=\"primary\" style={{'marginLeft':'20px'}}>主动校验</Button>*/}\r\n                    {/*<Button onClick={this.validateSelect} colors=\"primary\" style={{'marginLeft':'20px'}}>主动校验选中数据</Button>*/}\r\n                    {/*<Button onClick={this.addRow} colors=\"primary\" style={{'marginLeft':'20px'}}>增行</Button>*/}\r\n                    {/*<Button onClick={this.updateAll} colors=\"primary\" style={{'marginLeft':'20px'}}>修改</Button>*/}\r\n                    {/*<Button onClick={this.delRow} colors=\"primary\" style={{'marginLeft':'20px'}}>删行</Button>*/}\r\n                    {/*<Button onClick={this.copyRow} colors=\"primary\" style={{'marginLeft':'20px'}}>复制行</Button>*/}\r\n                    {/*{ this.copyFlag ? <Button onClick={this.copyToEnd} colors=\"primary\" style={{'marginLeft':'20px'}}>粘贴到末行</Button> : \"\"}*/}\r\n                    {/*<Button onClick={this.save} colors=\"primary\" style={{'marginLeft':'20px'}}>保存</Button>*/}\r\n                    {/*<Button onClick={this.cancelEdit} colors=\"primary\" style={{'marginLeft':'20px'}}>取消</Button>*/}\r\n                {/*</div>*/}\r\n                <BtnDiv\r\n                    changPag={this.changPag}\r\n                    getAllData={this.getAllData}\r\n                    getSelectData={this.getSelectData}\r\n                    validate={this.validate}\r\n                    validateSelect={this.validateSelect}\r\n                    addRow={this.addRow}\r\n                    updateAll={this.updateAll}\r\n                    delRow={this.delRow}\r\n                    copyRow={this.copyRow}\r\n                    copyToEnd={this.copyToEnd}\r\n                    save={this.save}\r\n                    cancelEdit={this.cancelEdit}\r\n                ></BtnDiv>\r\n\r\n                <EditGrid\r\n                    ref={(el) => this.grid = el}//ref用于调用内部方法\r\n                    data={data}//数据\r\n                    columns={this.column}//定义列\r\n                    paginationObj={paginationObj}//分页数据\r\n                    excludeKeys={['id','ts','lastModified']}\r\n                    delRow={(selectList,newData)=>{\r\n                        console.log('删除，数据如下-----------',selectList)\r\n                        console.log('新的数据如下-----------',newData)\r\n                    }}\r\n                    save={(selectList)=>{\r\n                        console.log('保存，数据如下-----------',selectList)\r\n                        return false;\r\n                    }}\r\n                    headerScroll={true}\r\n                    title=\"我是标题\"\r\n                    showTitlePanel={false}\r\n                />\r\n            </div>\r\n        )\r\n    }\r\n}\r\nexport default Demo2", "desc": " 编辑表格基本示例" }];
 	
 	var Demo = function (_Component) {
 	    _inherits(Demo, _Component);
@@ -37979,7 +37979,10 @@
 	            adding: false, //是否正在新增
 	            addNum: 0, //新增的条数
 	            canExport: false,
-	            pasting: false //正在粘贴
+	            pasting: false, //正在粘贴
+	            showTitlePanel: _this.props.showTitlePanel != undefined ? _this.props.showTitlePanel : false, //是否显示tabler header
+	            rowEditing: false, //是否开启行编辑
+	            sourceData: [] //编辑前记录原数据
 	        };
 	        _this.oldColumns = props.columns;
 	        _this.selectList = []; //选中的数据
@@ -38018,6 +38021,9 @@
 	    //取消新增
 	
 	    //修改
+	
+	
+	    //开启选中行的编辑
 	
 	
 	    //删除行
@@ -38075,6 +38081,10 @@
 	
 	var _initialiseProps = function _initialiseProps() {
 	    var _this2 = this;
+	
+	    this.getState = function () {
+	        return _this2.state;
+	    };
 	
 	    this.getColumnsAndTablePros = function () {
 	        return _this2.grid.getColumnsAndTablePros();
@@ -38226,7 +38236,9 @@
 	                    case 'refer':
 	                        item.render = function (text, record, index) {
 	                            var displayName = 'name';
-	                            if (fieldProps && fieldProps.displayName) name = fieldProps.displayName;
+	                            if (fieldProps && fieldProps.displayName) {
+	                                displayName = fieldProps.displayName;
+	                            }
 	                            var value = oldRender && oldRender(text, record, index);
 	                            if (text && (typeof text === "undefined" ? "undefined" : _typeof(text)) == 'object' && !record._edit) {
 	                                value = oldRender && oldRender(text[displayName], record, index);
@@ -38342,6 +38354,8 @@
 	    };
 	
 	    this.addRow = function () {
+	        //源数据更新前.保存一下..取消的时候使用
+	        var sourceData = (0, _lodash2["default"])(_this2.state.data);
 	        var defaultValueKeyValue = _this2.state.defaultValueKeyValue;
 	        var data = (0, _lodash2["default"])(_this2.state.data);
 	        var item = (0, _lodash2["default"])(defaultValueKeyValue);
@@ -38363,6 +38377,7 @@
 	        _this2.selectList = selectList;
 	        _this2.allData = data;
 	        _this2.props.onChange(data);
+	        _this2.sourceData = sourceData; //记录原数据
 	    };
 	
 	    this.cancelAdd = function () {
@@ -38390,6 +38405,8 @@
 	    };
 	
 	    this.updateAll = function () {
+	        //源数据更新前.保存一下..取消的时候使用
+	        var sourceData = (0, _lodash2["default"])(_this2.state.data);
 	        var data = (0, _lodash2["default"])(_this2.state.data);
 	        data.forEach(function (item) {
 	            item._edit = true; //是否编辑态
@@ -38399,10 +38416,37 @@
 	        _this2.setState({
 	            data: data,
 	            allEditing: true,
-	            selectData: []
+	            selectData: data
 	        });
 	        // this.props.onChange(data)
 	        _this2.allData = data;
+	        _this2.sourceData = sourceData;
+	    };
+	
+	    this.onRowDoubleClick = function (record, index, event) {
+	        //源数据更新前.保存一下..取消的时候使用
+	        var sourceData = (0, _lodash2["default"])(_this2.state.data);
+	        var data = (0, _lodash2["default"])(_this2.state.data);
+	        var selData = _this2.selectList;
+	        selData.push(record);
+	        data.forEach(function (item) {
+	            var findResult = selData.filter(function (selItem) {
+	                return selItem.id == item.id;
+	            }).length > 0;
+	            if (findResult) {
+	                item._edit = true; //是否编辑态
+	                item._status = 'edit'; //是否编辑态，用于显示是否编辑过
+	                item._checked = true;
+	            }
+	        });
+	        _this2.setState({
+	            data: data,
+	            allEditing: true,
+	            selectData: selData
+	        });
+	        // this.props.onChange(data)
+	        _this2.allData = data;
+	        _this2.sourceData = sourceData; //记录原数据
 	    };
 	
 	    this.delRow = function () {
@@ -38489,6 +38533,7 @@
 	            });
 	            // this.props.onChange(data)
 	            _this2.allData = data;
+	            _this2.selectList = [];
 	            _this2.props.save(selectList);
 	        }
 	    };
@@ -38585,7 +38630,7 @@
 	                    item._checked = false;
 	                });
 	                _this2.setState({
-	                    data: data,
+	                    data: _this2.sourceData,
 	                    allEditing: false,
 	                    selectData: [],
 	                    errors: {}
@@ -38594,6 +38639,7 @@
 	                _this2.allData = data;
 	                _this2.errors = {};
 	                _this2.selectList = [];
+	                _this2.sourceData = [];
 	            },
 	            onCancel: function onCancel() {},
 	            confirmType: 'two'
@@ -38696,7 +38742,8 @@
 	            open = _state.open,
 	            selectData = _state.selectData,
 	            canExport = _state.canExport,
-	            pasting = _state.pasting;
+	            pasting = _state.pasting,
+	            showTitlePanel = _state.showTitlePanel;
 	
 	        var _props = _this2.props,
 	            clsfix = _props.clsfix,
@@ -38806,7 +38853,8 @@
 	            },
 	            hoverContent: _this2.hoverContent,
 	            getSelectedDataFunc: _this2.getSelectedDataFunc,
-	            onRowHover: _this2.onRowHover
+	            onRowHover: _this2.onRowHover,
+	            onRowDoubleClick: _this2.onRowDoubleClick
 	        });
 	        gridOptions = _extends(_defaultProps.gridDefalutProps, gridOptions);
 	        return _react2["default"].createElement(
@@ -38815,7 +38863,7 @@
 	            _react2["default"].createElement(
 	                "div",
 	                { className: clsfix + " " + (disabled ? 'disabled' : '') + " " + (gridOptions.headerScroll ? 'header-scroll' : '') + " " + (isMax ? 'max' : '') + " " + (adding || allEditing || copying || pasting ? 'isEdit' : '') },
-	                typeof title == 'string' ? _react2["default"].createElement(
+	                showTitlePanel ? typeof title == 'string' ? _react2["default"].createElement(
 	                    "div",
 	                    { className: clsfix + "-panel " + (open ? '' : 'close') },
 	                    _react2["default"].createElement(
@@ -38854,11 +38902,7 @@
 	                    _react2["default"].createElement(
 	                        "div",
 	                        { className: "ac-gridcn-panel-btns" },
-	                        _react2["default"].createElement(
-	                            _beeButtonGroup2["default"],
-	                            null,
-	                            _react2["default"].createElement(_acBtns2["default"], { btns: btns1, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns })
-	                        ),
+	                        _react2["default"].createElement(_acBtns2["default"], { btns: btns1, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
 	                        _react2["default"].createElement(_acBtns2["default"], { btns: btnSave, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
 	                        _react2["default"].createElement(_acBtns2["default"], { btns: {
 	                                "export": {
@@ -38870,7 +38914,7 @@
 	                            }, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
 	                        _react2["default"].createElement(_acBtns2["default"], { btns: btnsObj, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns })
 	                    )
-	                ),
+	                ) : "",
 	                typeof title == 'string' ? _react2["default"].createElement(
 	                    "div",
 	                    { className: clsfix + "-inner " + (open ? 'show' : 'hide') + " " + (isMax ? 'max' : '') },
@@ -106612,6 +106656,10 @@
 	
 	var _beeButton2 = _interopRequireDefault(_beeButton);
 	
+	var _BtnDiv = __webpack_require__(681);
+	
+	var _BtnDiv2 = _interopRequireDefault(_BtnDiv);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -106684,6 +106732,39 @@
 	            });
 	        };
 	
+	        _this.addRow = function () {
+	            _this.grid.addRow();
+	        };
+	
+	        _this.updateAll = function () {
+	
+	            _this.grid.updateAll();
+	        };
+	
+	        _this.delRow = function () {
+	            _this.grid.delRow();
+	        };
+	
+	        _this.copyRow = function () {
+	            _this.grid.copyRow();
+	        };
+	
+	        _this.copyToEnd = function () {
+	            _this.grid.copyToEnd();
+	        };
+	
+	        _this.save = function () {
+	            //拿到添加的数据
+	            //this.grid.selectList
+	            //进行业务上的其它校验
+	            //校验没有问题保存记录
+	            _this.grid.save();
+	        };
+	
+	        _this.cancelEdit = function () {
+	            _this.grid.cancelEdit();
+	        };
+	
 	        _this.column = [{
 	            title: "员工编号",
 	            dataIndex: "code",
@@ -106713,6 +106794,7 @@
 	            required: true,
 	            validate: true,
 	            fieldProps: {
+	                maxLength: '10',
 	                defaultValue: '姓名'
 	            }
 	        }, {
@@ -106962,35 +107044,20 @@
 	        return _react2['default'].createElement(
 	            'div',
 	            { className: 'grid-parent' },
-	            _react2['default'].createElement(
-	                'div',
-	                { style: { 'marginBottom': '20px' } },
-	                _react2['default'].createElement(
-	                    _beeButton2['default'],
-	                    { onClick: this.changPag, colors: 'primary' },
-	                    '\u6539\u53D8\u5206\u9875'
-	                ),
-	                _react2['default'].createElement(
-	                    _beeButton2['default'],
-	                    { onClick: this.getAllData, colors: 'primary', style: { 'marginLeft': '20px' } },
-	                    '\u83B7\u5F97\u6240\u6709\u6570\u636E'
-	                ),
-	                _react2['default'].createElement(
-	                    _beeButton2['default'],
-	                    { onClick: this.getSelectData, colors: 'primary', style: { 'marginLeft': '20px' } },
-	                    '\u83B7\u5F97\u9009\u4E2D\u6570\u636E'
-	                ),
-	                _react2['default'].createElement(
-	                    _beeButton2['default'],
-	                    { onClick: this.validate, colors: 'primary', style: { 'marginLeft': '20px' } },
-	                    '\u4E3B\u52A8\u6821\u9A8C'
-	                ),
-	                _react2['default'].createElement(
-	                    _beeButton2['default'],
-	                    { onClick: this.validateSelect, colors: 'primary', style: { 'marginLeft': '20px' } },
-	                    '\u4E3B\u52A8\u6821\u9A8C\u9009\u4E2D\u6570\u636E'
-	                )
-	            ),
+	            _react2['default'].createElement(_BtnDiv2['default'], {
+	                changPag: this.changPag,
+	                getAllData: this.getAllData,
+	                getSelectData: this.getSelectData,
+	                validate: this.validate,
+	                validateSelect: this.validateSelect,
+	                addRow: this.addRow,
+	                updateAll: this.updateAll,
+	                delRow: this.delRow,
+	                copyRow: this.copyRow,
+	                copyToEnd: this.copyToEnd,
+	                save: this.save,
+	                cancelEdit: this.cancelEdit
+	            }),
 	            _react2['default'].createElement(_index.EditGrid, {
 	                ref: function ref(el) {
 	                    return _this2.grid = el;
@@ -107005,9 +107072,11 @@
 	                },
 	                save: function save(selectList) {
 	                    console.log('保存，数据如下-----------', selectList);
+	                    return false;
 	                },
 	                headerScroll: true,
-	                title: '\u6211\u662F\u6807\u9898'
+	                title: '\u6211\u662F\u6807\u9898',
+	                showTitlePanel: false
 	            })
 	        );
 	    };
@@ -107016,6 +107085,177 @@
 	}(_react.Component);
 	
 	exports['default'] = Demo2;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 681 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _beeButton = __webpack_require__(265);
+	
+	var _beeButton2 = _interopRequireDefault(_beeButton);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @title 编辑表格基本示例
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @description 编辑表格基本示例
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	
+	var BtnDiv = function (_Component) {
+	    _inherits(BtnDiv, _Component);
+	
+	    function BtnDiv(props) {
+	        _classCallCheck(this, BtnDiv);
+	
+	        var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+	
+	        _this.state = {
+	            editFlag: false,
+	            copyFlag: false
+	        };
+	        return _this;
+	    }
+	
+	    BtnDiv.prototype.render = function render() {
+	        var _this2 = this;
+	
+	        return _react2['default'].createElement(
+	            'div',
+	            { style: { 'marginBottom': '20px' } },
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.changPag();
+	                    }, colors: 'primary' },
+	                '\u6539\u53D8\u5206\u9875'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.getAllData();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u83B7\u5F97\u6240\u6709\u6570\u636E'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.getSelectData();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u83B7\u5F97\u9009\u4E2D\u6570\u636E'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.validate();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u4E3B\u52A8\u6821\u9A8C'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        return _this2.props.validateSelect();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u4E3B\u52A8\u6821\u9A8C\u9009\u4E2D\u6570\u636E'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.setState({
+	                            editFlag: true
+	                        });
+	                        _this2.props.addRow();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u589E\u884C'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.setState({
+	                            editFlag: true
+	                        });
+	                        _this2.props.updateAll();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u4FEE\u6539'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.delRow();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u5220\u884C'
+	            ),
+	            _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        if (_this2.state.editFlag) {
+	                            alert("请先结束编辑!");
+	                            return false;
+	                        }
+	                        _this2.setState({
+	                            copyFlag: true
+	                        });
+	                        _this2.props.copyRow();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u590D\u5236\u884C'
+	            ),
+	            this.state.copyFlag ? _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.setState({
+	                            copyFlag: false,
+	                            editFlag: true
+	                        });
+	                        _this2.props.copyToEnd();
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u7C98\u8D34\u5230\u672B\u884C'
+	            ) : "",
+	            this.state.editFlag ? _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.save();
+	                        _this2.setState({
+	                            editFlag: false
+	                        });
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u4FDD\u5B58'
+	            ) : "",
+	            this.state.editFlag ? _react2['default'].createElement(
+	                _beeButton2['default'],
+	                { onClick: function onClick() {
+	                        _this2.props.cancelEdit();
+	                        _this2.setState({
+	                            editFlag: false
+	                        });
+	                    }, colors: 'primary', style: { 'marginLeft': '20px' } },
+	                '\u53D6\u6D88'
+	            ) : ""
+	        );
+	    };
+	
+	    return BtnDiv;
+	}(_react.Component);
+	
+	exports['default'] = BtnDiv;
 	module.exports = exports['default'];
 
 /***/ })

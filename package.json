@@ -1,6 +1,6 @@
 {
  "name": "qmac-gridcn",
- "version": "0.2.38",
+ "version": "0.3.4",
  "description": "Gridcn ui component for react",
  "keywords": [
   "react",
@@ -13,10 +13,10 @@
  "engines": {
   "node": ">=4.0.0"
  },
- "homepage": "https://github.com/tinper-acs/ac-gridcn.git",
- "author": "Yonyou FED",
- "repository": "http://github.com/tinper-bee/ac-gridcn",
- "bugs": "https://github.com/tinper-acs/ac-gridcn.git/issues",
+ "homepage": "https://github.com/48401298/qmac-gridcn.git",
+ "author": "dlqm-wyf",
+ "repository": "https://github.com/48401298/qmac-gridcn",
+ "bugs": "https://github.com/48401298/qmac-gridcn.git/issues",
  "license": "MIT",
  "main": "./build/index.js",
  "config": {

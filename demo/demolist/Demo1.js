@@ -16,7 +16,7 @@ class Demo1 extends Component {
                 title: "员工编号",
                 dataIndex: "code",
                 key: "code",
-                width: 150
+                width: 150,
             },
             {
                 title: "员工姓名",

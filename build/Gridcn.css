@@ -14734,9 +14734,6 @@ li.rc-time-picker-panel-select-option-disabled:hover {
   .u-modal-container .u-modal, .u-modal-container .u-modal-backdrop {
     position: absolute; }
 
-.react-draggable-transparent-selection * {
-  pointer-events: none !important; }
-
 .ac-confirm .u-modal-dialog {
   width: 410px;
   height: 201px; }
@@ -14967,6 +14964,8 @@ li.rc-time-picker-panel-select-option-disabled:hover {
     .ac-gridcn .ac-gridcn-panel-btns .ac-btns-max .uf,
     .ac-gridcn .ac-gridcn-panel-btns .ac-btns-min .uf {
       font-size: 16px !important; }
+  .ac-gridcn .ac-gridcn-panel-btns .ac-btns-copyRow {
+    margin-right: 8px !important; }
 
 .ac-gridcn .u-table-thead th .required {
   display: none; }

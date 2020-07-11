@@ -56,12 +56,19 @@ class Grid extends Component {
             addNum:0,//新增的条数
             canExport:false,
             pasting:false,//正在粘贴
+            showTitlePanel: (this.props.showTitlePanel!=undefined?this.props.showTitlePanel:false),//是否显示tabler header
+            rowEditing: false,//是否开启行编辑
+            sourceData:[],//编辑前记录原数据
         }
         this.oldColumns = props.columns;
         this.selectList = [];//选中的数据
         this.allData = [];//表格所有数据
         this.errors = {};//整个表格的校验错误信息
         this.selectKeyData = {};//存select类型字段  key:data(下拉列表)
+    }
+
+    getState = () => {
+        return this.state;
     }
 
     /**
@@ -218,7 +225,10 @@ class Grid extends Component {
                     case 'refer':
                         item.render=(text,record,index)=>{
                             let displayName = 'name';
-                            if(fieldProps&&fieldProps.displayName)name=fieldProps.displayName;
+                            if(fieldProps&&fieldProps.displayName)
+                            {
+                                displayName=fieldProps.displayName;
+                            }
                             let value = oldRender&&oldRender(text,record,index);
                             if(text&&(typeof text == 'object')&&(!record._edit)){
                                 value = oldRender&&oldRender(text[displayName],record,index);
@@ -336,6 +346,8 @@ class Grid extends Component {
     }
     //增行
     addRow=()=>{
+        //源数据更新前.保存一下..取消的时候使用
+        let sourceData = cloneDeep(this.state.data);
         let defaultValueKeyValue = this.state.defaultValueKeyValue;
         let data = cloneDeep(this.state.data);
         let item = cloneDeep(defaultValueKeyValue);
@@ -357,6 +369,7 @@ class Grid extends Component {
         this.selectList = selectList;
         this.allData = data;
         this.props.onChange(data)
+        this.sourceData = sourceData;//记录原数据
     }
 
     //取消新增
@@ -385,6 +398,8 @@ class Grid extends Component {
     }
     //修改
     updateAll=()=>{
+        //源数据更新前.保存一下..取消的时候使用
+        let sourceData = cloneDeep(this.state.data);
         let data = cloneDeep(this.state.data);
         data.forEach(item=>{
             item._edit = true;//是否编辑态
@@ -394,12 +409,39 @@ class Grid extends Component {
         this.setState({
             data,
             allEditing:true,
-            selectData:[]
+            selectData:data
         })
         // this.props.onChange(data)
         this.allData = data;
+        this.sourceData = sourceData;
     }
-    
+
+    //开启选中行的编辑
+    onRowDoubleClick=(record, index, event)=>{
+        //源数据更新前.保存一下..取消的时候使用
+        let sourceData = cloneDeep(this.state.data);
+        let data = cloneDeep(this.state.data);
+        let selData = this.selectList;
+        selData.push(record);
+        data.forEach(item=>{
+            let findResult = selData.filter((selItem) => selItem.id == item.id).length > 0;
+            if(findResult)
+            {
+                item._edit = true;//是否编辑态
+                item._status = 'edit';//是否编辑态，用于显示是否编辑过
+                item._checked = true;
+            }
+        })
+        this.setState({
+            data,
+            allEditing:true,
+            selectData:selData
+        })
+        // this.props.onChange(data)
+        this.allData = data;
+        this.sourceData = sourceData;//记录原数据
+    }
+
     //删除行
     delRow=()=>{
         if(this.selectList.length<=0){
@@ -489,6 +531,7 @@ class Grid extends Component {
             })
             // this.props.onChange(data)
             this.allData = data;
+            this.selectList = [];
             this.props.save(selectList);
         }
     }
@@ -587,7 +630,7 @@ class Grid extends Component {
                     item._checked = false;
                 })
                 this.setState({
-                    data,
+                    data : this.sourceData,
                     allEditing:false,
                     selectData:[],
                     errors:{}
@@ -596,6 +639,7 @@ class Grid extends Component {
                 this.allData = data;
                 this.errors = {};
                 this.selectList = [];
+                this.sourceData = [];
             },
             onCancel:()=>{
             },
@@ -689,10 +733,8 @@ class Grid extends Component {
         })
     }
 
-    
-
     renderDom=()=>{
-        let { copying,isMax,columns,data,allEditing,adding,open,selectData,canExport,pasting } = this.state;
+        let { copying,isMax,columns,data,allEditing,adding,open,selectData,canExport,pasting, showTitlePanel } = this.state;
         const { clsfix,paginationObj, exportData,disabled,title,hideSave, isEdit,powerBtns,forcePowerBtns, ...otherProps } = this.props;
         let _paginationObj ='none';
         if(paginationObj!='none'){
@@ -791,12 +833,13 @@ class Grid extends Component {
             hoverContent:this.hoverContent,
             getSelectedDataFunc:this.getSelectedDataFunc,
             onRowHover:this.onRowHover,
+            onRowDoubleClick:this.onRowDoubleClick
         }
         gridOptions = Object.assign(gridDefalutProps,gridOptions);
         return (
             <Fragment>
                 <div className={`${clsfix} ${disabled?'disabled':''} ${gridOptions.headerScroll?'header-scroll':''} ${isMax?'max':''} ${adding||allEditing||copying||pasting?'isEdit':''}`}>
-                    {
+                    { showTitlePanel ? (
                         typeof title=='string'?<div className={`${clsfix}-panel ${open?'':'close'}`}>
                         <span onClick={this.open} className={`${clsfix}-panel-header`}>
                             <span className={`${clsfix}-panel-icon`}>
@@ -813,6 +856,7 @@ class Grid extends Component {
                                     {/*<ButtonGroup>*/}
                                         <Btns btns={btns1} powerBtns={powerBtns} forcePowerBtns={forcePowerBtns}/>
                                     {/*</ButtonGroup>*/}
+
                                     <Btns btns={btnSave} powerBtns={powerBtns} forcePowerBtns={forcePowerBtns}/>
                                     <Btns btns={{
                                             export: {
@@ -825,14 +869,13 @@ class Grid extends Component {
                                     <Btns btns={btnsObj} powerBtns={powerBtns} forcePowerBtns={forcePowerBtns}/>
                                 </div>:''
                         }
-                        
                         </div>:
                         <div className={`${clsfix}-panel`}>
                             <div></div>
                             <div className='ac-gridcn-panel-btns'>
-                                <ButtonGroup>
+                                {/*<ButtonGroup>*/}
                                     <Btns btns={btns1} powerBtns={powerBtns} forcePowerBtns={forcePowerBtns}/>
-                                </ButtonGroup>
+                                {/*</ButtonGroup>*/}
                                 <Btns btns={btnSave} powerBtns={powerBtns} forcePowerBtns={forcePowerBtns}/>
 
                                 <Btns btns={{
@@ -846,6 +889,7 @@ class Grid extends Component {
                                 <Btns btns={btnsObj} powerBtns={powerBtns} forcePowerBtns={forcePowerBtns}/>
                             </div>
                         </div>
+                        ) : ""
                     }
                     {
                         typeof title=='string'?<div className={`${clsfix}-inner ${open?'show':'hide'} ${isMax?'max':''}`}>
@@ -863,10 +907,8 @@ class Grid extends Component {
                 {
                     this.state.isMax?ReactDOM.createPortal(this.renderDom(),document.querySelector('body')):this.renderDom()
                 }
-
             </span>
         )
-        
     }
 }
 

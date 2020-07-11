@@ -78,8 +78,6 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -114,21 +112,29 @@ var Grid = function (_Component) {
     _inherits(Grid, _Component);
 
     function Grid(props) {
-        var _this$state;
-
         _classCallCheck(this, Grid);
 
         var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
         _initialiseProps.call(_this);
 
-        _this.state = (_this$state = {
+        _this.state = {
             copying: false, //是否正在拷贝
             open: props.defaultOpen != undefined ? props.defaultValue : true, //默认展开收起
-            isMax: false, //是否最大化了
+            //isMax:false,//是否最大化了
             columns: props.columns,
             data: props.data,
-            defaultValueKeyValue: {} }, _defineProperty(_this$state, "isMax", false), _defineProperty(_this$state, "selectData", []), _defineProperty(_this$state, "allEditing", false), _defineProperty(_this$state, "adding", false), _defineProperty(_this$state, "addNum", 0), _defineProperty(_this$state, "canExport", false), _defineProperty(_this$state, "pasting", false), _this$state);
+            defaultValueKeyValue: {}, //每个单元格的默认值
+            isMax: false, //是否最大化了
+            selectData: [], //选中的数据
+            allEditing: false, //是否正在修改所有数据
+            adding: false, //是否正在新增
+            addNum: 0, //新增的条数
+            canExport: false,
+            pasting: false, //正在粘贴
+            showTitlePanel: _this.props.showTitlePanel != undefined ? _this.props.showTitlePanel : false, //是否显示tabler header
+            rowEditing: false //是否开启行编辑
+        };
         _this.oldColumns = props.columns;
         _this.selectList = []; //选中的数据
         _this.allData = []; //表格所有数据
@@ -166,6 +172,9 @@ var Grid = function (_Component) {
     //取消新增
 
     //修改
+
+
+    //开启选中行的编辑
 
 
     //删除行
@@ -374,7 +383,9 @@ var _initialiseProps = function _initialiseProps() {
                     case 'refer':
                         item.render = function (text, record, index) {
                             var displayName = 'name';
-                            if (fieldProps && fieldProps.displayName) name = fieldProps.displayName;
+                            if (fieldProps && fieldProps.displayName) {
+                                displayName = fieldProps.displayName;
+                            }
                             var value = oldRender && oldRender(text, record, index);
                             if (text && (typeof text === "undefined" ? "undefined" : _typeof(text)) == 'object' && !record._edit) {
                                 value = oldRender && oldRender(text[displayName], record, index);
@@ -547,7 +558,30 @@ var _initialiseProps = function _initialiseProps() {
         _this2.setState({
             data: data,
             allEditing: true,
-            selectData: []
+            selectData: data
+        });
+        // this.props.onChange(data)
+        _this2.allData = data;
+    };
+
+    this.onRowDoubleClick = function (record, index, event) {
+        var data = (0, _lodash2["default"])(_this2.state.data);
+        var selData = _this2.selectList;
+        selData.push(record);
+        data.forEach(function (item) {
+            var findResult = selData.filter(function (selItem) {
+                return selItem.id == item.id;
+            }).length > 0;
+            if (findResult) {
+                item._edit = true; //是否编辑态
+                item._status = 'edit'; //是否编辑态，用于显示是否编辑过
+                item._checked = true;
+            }
+        });
+        _this2.setState({
+            data: data,
+            rowEditing: true,
+            selectData: selData
         });
         // this.props.onChange(data)
         _this2.allData = data;
@@ -844,7 +878,8 @@ var _initialiseProps = function _initialiseProps() {
             open = _state.open,
             selectData = _state.selectData,
             canExport = _state.canExport,
-            pasting = _state.pasting;
+            pasting = _state.pasting,
+            showTitlePanel = _state.showTitlePanel;
 
         var _props = _this2.props,
             clsfix = _props.clsfix,
@@ -954,7 +989,8 @@ var _initialiseProps = function _initialiseProps() {
             },
             hoverContent: _this2.hoverContent,
             getSelectedDataFunc: _this2.getSelectedDataFunc,
-            onRowHover: _this2.onRowHover
+            onRowHover: _this2.onRowHover,
+            onRowDoubleClick: _this2.onRowDoubleClick
         });
         gridOptions = _extends(_defaultProps.gridDefalutProps, gridOptions);
         return _react2["default"].createElement(
@@ -963,7 +999,7 @@ var _initialiseProps = function _initialiseProps() {
             _react2["default"].createElement(
                 "div",
                 { className: clsfix + " " + (disabled ? 'disabled' : '') + " " + (gridOptions.headerScroll ? 'header-scroll' : '') + " " + (isMax ? 'max' : '') + " " + (adding || allEditing || copying || pasting ? 'isEdit' : '') },
-                typeof title == 'string' ? _react2["default"].createElement(
+                showTitlePanel ? typeof title == 'string' ? _react2["default"].createElement(
                     "div",
                     { className: clsfix + "-panel " + (open ? '' : 'close') },
                     _react2["default"].createElement(
@@ -983,11 +1019,7 @@ var _initialiseProps = function _initialiseProps() {
                     open ? _react2["default"].createElement(
                         "div",
                         { className: clsfix + "-panel-btns" },
-                        _react2["default"].createElement(
-                            _beeButtonGroup2["default"],
-                            null,
-                            _react2["default"].createElement(_acBtns2["default"], { btns: btns1, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns })
-                        ),
+                        _react2["default"].createElement(_acBtns2["default"], { btns: btns1, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
                         _react2["default"].createElement(_acBtns2["default"], { btns: btnSave, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
                         _react2["default"].createElement(_acBtns2["default"], { btns: {
                                 "export": {
@@ -1006,11 +1038,7 @@ var _initialiseProps = function _initialiseProps() {
                     _react2["default"].createElement(
                         "div",
                         { className: "ac-gridcn-panel-btns" },
-                        _react2["default"].createElement(
-                            _beeButtonGroup2["default"],
-                            null,
-                            _react2["default"].createElement(_acBtns2["default"], { btns: btns1, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns })
-                        ),
+                        _react2["default"].createElement(_acBtns2["default"], { btns: btns1, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
                         _react2["default"].createElement(_acBtns2["default"], { btns: btnSave, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
                         _react2["default"].createElement(_acBtns2["default"], { btns: {
                                 "export": {
@@ -1022,7 +1050,7 @@ var _initialiseProps = function _initialiseProps() {
                             }, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns }),
                         _react2["default"].createElement(_acBtns2["default"], { btns: btnsObj, powerBtns: powerBtns, forcePowerBtns: forcePowerBtns })
                     )
-                ),
+                ) : "",
                 typeof title == 'string' ? _react2["default"].createElement(
                     "div",
                     { className: clsfix + "-inner " + (open ? 'show' : 'hide') + " " + (isMax ? 'max' : '') },

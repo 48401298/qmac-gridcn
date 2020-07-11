@@ -9,6 +9,7 @@ import data from './data';
 import { EditGrid } from '../../src/index'
 import moment from 'moment';
 import Button from 'bee-button';
+import BtnDiv from '../BtnDiv'
 
 class Demo2 extends Component {
     constructor(props){
@@ -18,7 +19,7 @@ class Demo2 extends Component {
                 title: "员工编号",
                 dataIndex: "code",
                 key: "code",
-                width: 150
+                width: 150,
             },
             {
                 title: "员工编号",
@@ -47,6 +48,7 @@ class Demo2 extends Component {
                 required:true,
                 validate:true,
                 fieldProps:{
+                    maxLength:'10',
                     defaultValue:'姓名'
                 },
             },
@@ -323,6 +325,7 @@ class Demo2 extends Component {
             alert('数据校验成功')
         }
     }
+
     changPag=()=>{
         this.setState({
             activePage:2,
@@ -330,7 +333,33 @@ class Demo2 extends Component {
             items:20
         })
     }
-    
+    addRow=()=>{
+        this.grid.addRow()
+    }
+    updateAll=()=>{
+
+        this.grid.updateAll()
+    }
+    delRow=()=>{
+        this.grid.delRow()
+    }
+    copyRow=()=>{
+        this.grid.copyRow()
+    }
+    copyToEnd=()=>{
+        this.grid.copyToEnd()
+    }
+    save=()=>{
+        //拿到添加的数据
+        //this.grid.selectList
+        //进行业务上的其它校验
+        //校验没有问题保存记录
+        this.grid.save();
+    }
+    cancelEdit=()=>{
+        this.grid.cancelEdit();
+    }
+
     render () {
         let paginationObj = {
             activePage: this.state.activePage,//当前页
@@ -342,14 +371,35 @@ class Demo2 extends Component {
         }
         return (
             <div className='grid-parent'>
-                <div style={{'marginBottom':'20px'}}>
-                    <Button onClick={this.changPag} colors="primary" >改变分页</Button>
-                    <Button onClick={this.getAllData} colors="primary" style={{'marginLeft':'20px'}} >获得所有数据</Button>
-                    <Button onClick={this.getSelectData} colors="primary" style={{'marginLeft':'20px'}} >获得选中数据</Button>
-                    <Button onClick={this.validate} colors="primary" style={{'marginLeft':'20px'}}>主动校验</Button>
-                    <Button onClick={this.validateSelect} colors="primary" style={{'marginLeft':'20px'}}>主动校验选中数据</Button>
-                </div>
-                
+                {/*<div style={{'marginBottom':'20px'}}>*/}
+                    {/*<Button onClick={this.changPag} colors="primary" >改变分页</Button>*/}
+                    {/*<Button onClick={this.getAllData} colors="primary" style={{'marginLeft':'20px'}} >获得所有数据</Button>*/}
+                    {/*<Button onClick={this.getSelectData} colors="primary" style={{'marginLeft':'20px'}} >获得选中数据</Button>*/}
+                    {/*<Button onClick={this.validate} colors="primary" style={{'marginLeft':'20px'}}>主动校验</Button>*/}
+                    {/*<Button onClick={this.validateSelect} colors="primary" style={{'marginLeft':'20px'}}>主动校验选中数据</Button>*/}
+                    {/*<Button onClick={this.addRow} colors="primary" style={{'marginLeft':'20px'}}>增行</Button>*/}
+                    {/*<Button onClick={this.updateAll} colors="primary" style={{'marginLeft':'20px'}}>修改</Button>*/}
+                    {/*<Button onClick={this.delRow} colors="primary" style={{'marginLeft':'20px'}}>删行</Button>*/}
+                    {/*<Button onClick={this.copyRow} colors="primary" style={{'marginLeft':'20px'}}>复制行</Button>*/}
+                    {/*{ this.copyFlag ? <Button onClick={this.copyToEnd} colors="primary" style={{'marginLeft':'20px'}}>粘贴到末行</Button> : ""}*/}
+                    {/*<Button onClick={this.save} colors="primary" style={{'marginLeft':'20px'}}>保存</Button>*/}
+                    {/*<Button onClick={this.cancelEdit} colors="primary" style={{'marginLeft':'20px'}}>取消</Button>*/}
+                {/*</div>*/}
+                <BtnDiv
+                    changPag={this.changPag}
+                    getAllData={this.getAllData}
+                    getSelectData={this.getSelectData}
+                    validate={this.validate}
+                    validateSelect={this.validateSelect}
+                    addRow={this.addRow}
+                    updateAll={this.updateAll}
+                    delRow={this.delRow}
+                    copyRow={this.copyRow}
+                    copyToEnd={this.copyToEnd}
+                    save={this.save}
+                    cancelEdit={this.cancelEdit}
+                ></BtnDiv>
+
                 <EditGrid
                     ref={(el) => this.grid = el}//ref用于调用内部方法
                     data={data}//数据
@@ -362,9 +412,11 @@ class Demo2 extends Component {
                     }}
                     save={(selectList)=>{
                         console.log('保存，数据如下-----------',selectList)
+                        return false;
                     }}
                     headerScroll={true}
                     title="我是标题"
+                    showTitlePanel={false}
                 />
             </div>
         )
