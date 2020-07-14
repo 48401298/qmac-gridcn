@@ -18,12 +18,8 @@ import YearField from './RowField/YearField';
 import DateField from './RowField/DateField';
 
 import AcTips from 'ac-tips';
-
-import classnames from 'classnames';
-
+// import classnames from 'classnames';
 import { gridDefalutProps,paginationDefaultProps } from './defaultProps'
-
-
 
 const defaultProps = {
     data: [],
@@ -114,6 +110,7 @@ class Grid extends Component {
             this.setData(nextProps.data,nextProps.exportData);
         }
     }
+
     setColumn=(cl)=>{
         let columns = cloneDeep(cl);
         let defaultValueKeyValue = {};
@@ -140,7 +137,7 @@ class Grid extends Component {
                     case 'input':
                         item.render=(text,record,index)=>{
                             return (
-                                record._edit?<TextField 
+                                record._edit?<TextField
                                     {...other}
                                     fieldProps={fieldProps}
                                     index = {index}
@@ -157,7 +154,7 @@ class Grid extends Component {
                         item.render=(text,record,index)=>{
                             let value = text;
                             return (
-                                record._edit?<NumberField 
+                                record._edit ? <NumberField
                                     {...other}
                                     fieldProps={fieldProps}
                                     index = {index}
@@ -423,6 +420,7 @@ class Grid extends Component {
         let data = cloneDeep(this.state.data);
         let selData = this.selectList;
         selData.push(record);
+        let editItem ={};
         data.forEach(item=>{
             let findResult = selData.filter((selItem) => selItem.id == item.id).length > 0;
             if(findResult)
@@ -430,6 +428,7 @@ class Grid extends Component {
                 item._edit = true;//是否编辑态
                 item._status = 'edit';//是否编辑态，用于显示是否编辑过
                 item._checked = true;
+                editItem = item
             }
         })
         this.setState({
@@ -440,6 +439,7 @@ class Grid extends Component {
         // this.props.onChange(data)
         this.allData = data;
         this.sourceData = sourceData;//记录原数据
+        this.props.openRowEdit({editItem});
     }
 
     //删除行

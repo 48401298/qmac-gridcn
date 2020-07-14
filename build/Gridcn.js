@@ -64,10 +64,6 @@ var _acTips = require("ac-tips");
 
 var _acTips2 = _interopRequireDefault(_acTips);
 
-var _classnames = require("classnames");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _defaultProps = require("./defaultProps");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -92,6 +88,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //年份选择组件
 
 //日期组件
+
+// import classnames from 'classnames';
 
 
 var defaultProps = {
@@ -133,7 +131,8 @@ var Grid = function (_Component) {
             canExport: false,
             pasting: false, //正在粘贴
             showTitlePanel: _this.props.showTitlePanel != undefined ? _this.props.showTitlePanel : false, //是否显示tabler header
-            rowEditing: false //是否开启行编辑
+            rowEditing: false, //是否开启行编辑
+            sourceData: [] //编辑前记录原数据
         };
         _this.oldColumns = props.columns;
         _this.selectList = []; //选中的数据
@@ -232,6 +231,10 @@ var Grid = function (_Component) {
 
 var _initialiseProps = function _initialiseProps() {
     var _this2 = this;
+
+    this.getState = function () {
+        return _this2.state;
+    };
 
     this.getColumnsAndTablePros = function () {
         return _this2.grid.getColumnsAndTablePros();
@@ -501,6 +504,8 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.addRow = function () {
+        //源数据更新前.保存一下..取消的时候使用
+        var sourceData = (0, _lodash2["default"])(_this2.state.data);
         var defaultValueKeyValue = _this2.state.defaultValueKeyValue;
         var data = (0, _lodash2["default"])(_this2.state.data);
         var item = (0, _lodash2["default"])(defaultValueKeyValue);
@@ -522,6 +527,7 @@ var _initialiseProps = function _initialiseProps() {
         _this2.selectList = selectList;
         _this2.allData = data;
         _this2.props.onChange(data);
+        _this2.sourceData = sourceData; //记录原数据
     };
 
     this.cancelAdd = function () {
@@ -549,6 +555,8 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.updateAll = function () {
+        //源数据更新前.保存一下..取消的时候使用
+        var sourceData = (0, _lodash2["default"])(_this2.state.data);
         var data = (0, _lodash2["default"])(_this2.state.data);
         data.forEach(function (item) {
             item._edit = true; //是否编辑态
@@ -562,12 +570,16 @@ var _initialiseProps = function _initialiseProps() {
         });
         // this.props.onChange(data)
         _this2.allData = data;
+        _this2.sourceData = sourceData;
     };
 
     this.onRowDoubleClick = function (record, index, event) {
+        //源数据更新前.保存一下..取消的时候使用
+        var sourceData = (0, _lodash2["default"])(_this2.state.data);
         var data = (0, _lodash2["default"])(_this2.state.data);
         var selData = _this2.selectList;
         selData.push(record);
+        var editItem = {};
         data.forEach(function (item) {
             var findResult = selData.filter(function (selItem) {
                 return selItem.id == item.id;
@@ -576,15 +588,18 @@ var _initialiseProps = function _initialiseProps() {
                 item._edit = true; //是否编辑态
                 item._status = 'edit'; //是否编辑态，用于显示是否编辑过
                 item._checked = true;
+                editItem = item;
             }
         });
         _this2.setState({
             data: data,
-            rowEditing: true,
+            allEditing: true,
             selectData: selData
         });
         // this.props.onChange(data)
         _this2.allData = data;
+        _this2.sourceData = sourceData; //记录原数据
+        _this2.props.openRowEdit({ editItem: editItem });
     };
 
     this.delRow = function () {
@@ -671,6 +686,7 @@ var _initialiseProps = function _initialiseProps() {
             });
             // this.props.onChange(data)
             _this2.allData = data;
+            _this2.selectList = [];
             _this2.props.save(selectList);
         }
     };
@@ -767,7 +783,7 @@ var _initialiseProps = function _initialiseProps() {
                     item._checked = false;
                 });
                 _this2.setState({
-                    data: data,
+                    data: _this2.sourceData,
                     allEditing: false,
                     selectData: [],
                     errors: {}
@@ -776,6 +792,7 @@ var _initialiseProps = function _initialiseProps() {
                 _this2.allData = data;
                 _this2.errors = {};
                 _this2.selectList = [];
+                _this2.sourceData = [];
             },
             onCancel: function onCancel() {},
             confirmType: 'two'

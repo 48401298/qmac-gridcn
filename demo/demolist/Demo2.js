@@ -359,6 +359,9 @@ class Demo2 extends Component {
     cancelEdit=()=>{
         this.grid.cancelEdit();
     }
+    openRowEdit=(editItem)=>{
+        alert("开启行编辑!" + JSON.stringify(editItem));
+    }
 
     render () {
         let paginationObj = {
@@ -399,7 +402,6 @@ class Demo2 extends Component {
                     save={this.save}
                     cancelEdit={this.cancelEdit}
                 ></BtnDiv>
-
                 <EditGrid
                     ref={(el) => this.grid = el}//ref用于调用内部方法
                     data={data}//数据
@@ -417,6 +419,7 @@ class Demo2 extends Component {
                     headerScroll={true}
                     title="我是标题"
                     showTitlePanel={false}
+                    openRowEdit={this.openRowEdit}
                 />
             </div>
         )
