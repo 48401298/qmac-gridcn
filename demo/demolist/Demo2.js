@@ -97,6 +97,20 @@ class Demo2 extends Component {
                 required:true,
             },
             {
+                title: "年份(时间)",
+                dataIndex: "year",
+                key: "year",
+                width: 100,
+                renderType:'datepicker',
+                required:true,
+                fieldProps:{
+                    defaultValue:'2018-01-01 01:02:03'
+                },
+                render:(text, record, index)=>{
+                    return moment(text).format('YYYY-MM-DD HH:MM:SS');
+                }
+            },
+            {
                 title: "年份",
                 dataIndex: "year",
                 key: "year",
@@ -363,6 +377,11 @@ class Demo2 extends Component {
         alert("开启行编辑!" + JSON.stringify(editItem));
     }
 
+    onRowDoubleClick=(editItem)=>{
+        this.btnDiv.openRowEdit()
+        alert("双击开启行编辑!" + JSON.stringify(editItem));
+    }
+
     render () {
         let paginationObj = {
             activePage: this.state.activePage,//当前页
@@ -389,6 +408,7 @@ class Demo2 extends Component {
                     {/*<Button onClick={this.cancelEdit} colors="primary" style={{'marginLeft':'20px'}}>取消</Button>*/}
                 {/*</div>*/}
                 <BtnDiv
+                    ref={(el) => this.btnDiv = el}
                     changPag={this.changPag}
                     getAllData={this.getAllData}
                     getSelectData={this.getSelectData}
@@ -420,6 +440,7 @@ class Demo2 extends Component {
                     title="我是标题"
                     showTitlePanel={false}
                     openRowEdit={this.openRowEdit}
+                    onRowDoubleClick={this.onRowDoubleClick}
                 />
             </div>
         )

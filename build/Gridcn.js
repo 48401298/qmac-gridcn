@@ -597,9 +597,10 @@ var _initialiseProps = function _initialiseProps() {
             selectData: selData
         });
         // this.props.onChange(data)
+        _this2.selectList = selData;
         _this2.allData = data;
         _this2.sourceData = sourceData; //记录原数据
-        _this2.props.openRowEdit({ editItem: editItem });
+        _this2.props.onRowDoubleClick({ editItem: editItem });
     };
 
     this.delRow = function () {

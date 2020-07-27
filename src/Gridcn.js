@@ -437,9 +437,10 @@ class Grid extends Component {
             selectData:selData
         })
         // this.props.onChange(data)
+        this.selectList = selData;
         this.allData = data;
         this.sourceData = sourceData;//记录原数据
-        this.props.openRowEdit({editItem});
+        this.props.onRowDoubleClick({editItem});
     }
 
     //删除行

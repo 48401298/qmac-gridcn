@@ -16,6 +16,12 @@ class BtnDiv extends Component {
         }
     }
 
+    openRowEdit = () =>{
+        this.setState({
+            editFlag : true
+        })
+    }
+
     render () {
         return (
         <div style={{'marginBottom':'20px'}}>
