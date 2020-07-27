@@ -136,7 +136,8 @@ class DateField extends Component {
                 flag={flag}
             >
                 <DatePicker
-                    format={'YYYY-MM-DD HH:MM'}
+                    showTime={this.props.showTime}
+                    format={this.props.dateFormat}
                     locale={zhCN}
                     placeholder='选择日期'
                     {...fieldProps}

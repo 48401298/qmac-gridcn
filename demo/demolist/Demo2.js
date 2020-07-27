@@ -100,14 +100,16 @@ class Demo2 extends Component {
                 title: "年份(时间)",
                 dataIndex: "year",
                 key: "year",
-                width: 100,
-                renderType:'datepicker',
+                width: 300,
+                renderType:'datetimepicker',
                 required:true,
                 fieldProps:{
-                    defaultValue:'2018-01-01 01:02:03'
+                    defaultValue:'2000-01-01 00:00:00',
+                    dateFormat: 'YYYY-MM-DD HH:mm'
                 },
                 render:(text, record, index)=>{
-                    return moment(text).format('YYYY-MM-DD HH:MM:SS');
+                    console.log("------" + text);
+                    return moment(text).format('YYYY-MM-DD HH:mm');
                 }
             },
             {

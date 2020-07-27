@@ -213,7 +213,8 @@ var DateField = function (_Component) {
                 flag: flag
             },
             _react2["default"].createElement(_beeDatepicker2["default"], _extends({
-                format: 'YYYY-MM-DD',
+                showTime: this.props.showTime,
+                format: this.props.dateFormat,
                 locale: _zh_CN2["default"],
                 placeholder: '\u9009\u62E9\u65E5\u671F'
             }, fieldProps, {

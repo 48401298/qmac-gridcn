@@ -349,11 +349,32 @@ var _initialiseProps = function _initialiseProps() {
                             );
                         };
                         break;
+                    case 'datetimepicker':
+                        item.render = function (text, record, index) {
+                            return record._edit ? _react2["default"].createElement(_DateField2["default"], _extends({}, other, {
+                                fieldProps: fieldProps,
+                                index: index,
+                                showTime: true,
+                                dateFormat: fieldProps.dateFormat || 'YYYY-MM-DD HH:mm:ss',
+                                value: oldRender && oldRender(text, record, index),
+                                field: item.dataIndex,
+                                onChange: _this2.onChange,
+                                status: record._status,
+                                onValidate: _this2.onValidate
+                            })) : _react2["default"].createElement(
+                                "div",
+                                null,
+                                oldRender && oldRender(text, record, index)
+                            );
+                        };
+                        break;
                     case 'datepicker':
                         item.render = function (text, record, index) {
                             return record._edit ? _react2["default"].createElement(_DateField2["default"], _extends({}, other, {
                                 fieldProps: fieldProps,
                                 index: index,
+                                showTime: false,
+                                dateFormat: fieldProps.dateFormat || "YYYY-MM-DD",
                                 value: oldRender && oldRender(text, record, index),
                                 field: item.dataIndex,
                                 onChange: _this2.onChange,

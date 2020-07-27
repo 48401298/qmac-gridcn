@@ -187,6 +187,24 @@ class Grid extends Component {
                             )
                         }
                     break;
+                    case 'datetimepicker':
+                        item.render=(text,record,index)=>{
+                            return (
+                                record._edit?<DateField
+                                    {...other}
+                                    fieldProps={fieldProps}
+                                    index = {index}
+                                    showTime = {true}
+                                    dateFormat={fieldProps.dateFormat || 'YYYY-MM-DD HH:mm:ss'}
+                                    value = {oldRender&&oldRender(text,record,index)}
+                                    field = {item.dataIndex}
+                                    onChange = {this.onChange}
+                                    status = {record._status}
+                                    onValidate={this.onValidate}
+                                />:<div>{oldRender&&oldRender(text,record,index)}</div>
+                            )
+                        }
+                    break;
                     case 'datepicker':
                         item.render=(text,record,index)=>{
                             return (
@@ -194,6 +212,8 @@ class Grid extends Component {
                                     {...other}
                                     fieldProps={fieldProps}
                                     index = {index}
+                                    showTime = {false}
+                                    dateFormat={fieldProps.dateFormat || "YYYY-MM-DD"}
                                     value = {oldRender&&oldRender(text,record,index)}
                                     field = {item.dataIndex}
                                     onChange = {this.onChange}
