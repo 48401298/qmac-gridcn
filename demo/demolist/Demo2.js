@@ -104,12 +104,23 @@ class Demo2 extends Component {
                 renderType:'datetimepicker',
                 required:true,
                 fieldProps:{
-                    defaultValue:'2000-01-01 00:00:00',
-                    dateFormat: 'YYYY-MM-DD HH:mm'
+                    defaultValue: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+                    dateFormat: 'YYYY-MM-DD HH:mm',
+                    value: '2000-01-01 00:00',
+                    showClose: false,
+                    onChange: (value) =>{
+                        return value == "" ? moment(new Date()).format('YYYY-MM-DD HH:mm') : value;
+                    }
                 },
                 render:(text, record, index)=>{
                     console.log("------" + text);
-                    return moment(text).format('YYYY-MM-DD HH:mm');
+                    console.log("------" + (text == "null") + "   " + (text == null));
+                    let tmp = text;
+                    if(tmp == null)
+                    {
+                        tmp = new Date();
+                    }
+                    return moment(tmp).format('YYYY-MM-DD HH:mm');
                 }
             },
             {
