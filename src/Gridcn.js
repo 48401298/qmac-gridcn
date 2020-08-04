@@ -137,18 +137,19 @@ class Grid extends Component {
         //20200804 add 支持多级表头
         // let columns = cloneDeep(cl);
         // let defaultValueKeyValue = {};
-        let cloneColumns = cloneDeep(cl);
+        let columns = cloneDeep(cl);
         let defaultValueKeyValue = {};
         //console.log(cloneColumns)
-        let columns = cloneDeep(cloneColumns);
+        let editColumns = cloneDeep(columns);
         if(this.props.multiHeader)
         {
-            columns = this.getLastColumns(columns);
+            editColumns = this.getLastColumns(columns);
         }
+
         //console.log(lastColumns)
         //20200804 add 支持多级表头
 
-        columns.forEach(item => {
+        editColumns.forEach(item => {
             let {
                 renderType,//渲染类型 input/inputNumber/select/datepicker/year
                 fieldProps={},//传给`field`的属性
@@ -397,6 +398,11 @@ class Grid extends Component {
     }
     //增行
     addRow=()=>{
+        if(this.state.allEditing)
+        {
+            alert("编辑信息未保存,请先保存编辑信息!");
+            return;
+        }
         //源数据更新前.保存一下..取消的时候使用
         let sourceData = cloneDeep(this.state.data);
         let defaultValueKeyValue = this.state.defaultValueKeyValue;
@@ -449,8 +455,18 @@ class Grid extends Component {
     }
     //修改
     updateAll=()=>{
+        if(this.state.adding)
+        {
+            alert("录入信息未保存,请先保存录入信息!");
+            return;
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
         //源数据更新前.保存一下..取消的时候使用
-        let sourceData = cloneDeep(this.state.data);
+        if(!this.state.allEditing) {
+            let sourceData = cloneDeep(this.state.data);
+            this.sourceData = sourceData;
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
         let data = cloneDeep(this.state.data);
         data.forEach(item=>{
             item._edit = true;//是否编辑态
@@ -464,13 +480,26 @@ class Grid extends Component {
         })
         // this.props.onChange(data)
         this.allData = data;
-        this.sourceData = sourceData;
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
+        //this.sourceData = sourceData;
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
     }
 
     //开启选中行的编辑
     onRowDoubleClick=(record, index, event)=>{
+        if(this.state.adding)
+        {
+            alert("录入信息未保存,请先保存录入信息!");
+            return;
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf add
         //源数据更新前.保存一下..取消的时候使用
-        let sourceData = cloneDeep(this.state.data);
+        if(!this.state.allEditing)
+        {
+            let sourceData = cloneDeep(this.state.data);
+            this.sourceData = sourceData;//记录原数据
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf add
         let data = cloneDeep(this.state.data);
         let selData = this.selectList;
         selData.push(record);
@@ -493,7 +522,9 @@ class Grid extends Component {
         // this.props.onChange(data)
         this.selectList = selData;
         this.allData = data;
-        this.sourceData = sourceData;//记录原数据
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
+        //this.sourceData = sourceData;//记录原数据
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
         this.props.onRowDoubleClick({editItem});
     }
 
@@ -686,6 +717,9 @@ class Grid extends Component {
                 })
                 this.setState({
                     data : this.sourceData,
+                    //20200804 wyf modify 取消时切换新增和编辑的状态值
+                    adding: false,
+                    //20200804 wyf modify 取消时切换新增和编辑的状态值
                     allEditing:false,
                     selectData:[],
                     errors:{}

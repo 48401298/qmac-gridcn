@@ -418,29 +418,46 @@ class Demo2 extends Component {
     }
     addRow=()=>{
         this.grid.addRow()
+        this.btnDiv.openRowEdit()
     }
     updateAll=()=>{
-
-        this.grid.updateAll()
+        this.grid.updateAll();
+        this.btnDiv.openRowEdit();
     }
     delRow=()=>{
         this.grid.delRow()
     }
     copyRow=()=>{
         this.grid.copyRow()
+        if(this.btnDiv.getRowEditStatus)
+        {
+            alert("请先结束编辑!");
+            return false;
+        }
+        this.btnDiv.openRowEdit()
     }
     copyToEnd=()=>{
         this.grid.copyToEnd()
+        this.btnDiv.closeAllEdit()
     }
     save=()=>{
         //拿到添加的数据
         //this.grid.selectList
         //进行业务上的其它校验
         //校验没有问题保存记录
-        this.grid.save();
+        let error = this.grid.validateSelect();
+        if(error){
+            alert('数据校验失败，错误信息见控制台');
+            console.log(error)
+        }else{
+            alert('数据校验成功')
+            this.grid.save()
+            this.btnDiv.closeRowEdit()
+        }
     }
     cancelEdit=()=>{
         this.grid.cancelEdit();
+        this.btnDiv.closeRowEdit()
     }
     openRowEdit=(editItem)=>{
         alert("开启行编辑!" + JSON.stringify(editItem));

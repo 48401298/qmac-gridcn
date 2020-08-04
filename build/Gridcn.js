@@ -296,17 +296,18 @@ var _initialiseProps = function _initialiseProps() {
         //20200804 add 支持多级表头
         // let columns = cloneDeep(cl);
         // let defaultValueKeyValue = {};
-        var cloneColumns = (0, _lodash2["default"])(cl);
+        var columns = (0, _lodash2["default"])(cl);
         var defaultValueKeyValue = {};
         //console.log(cloneColumns)
-        var columns = (0, _lodash2["default"])(cloneColumns);
+        var editColumns = (0, _lodash2["default"])(columns);
         if (_this2.props.multiHeader) {
-            columns = _this2.getLastColumns(columns);
+            editColumns = _this2.getLastColumns(columns);
         }
+
         //console.log(lastColumns)
         //20200804 add 支持多级表头
 
-        columns.forEach(function (item) {
+        editColumns.forEach(function (item) {
             var renderType = item.renderType,
                 _item$fieldProps = item.fieldProps,
                 fieldProps = _item$fieldProps === undefined ? {} : _item$fieldProps,
@@ -560,6 +561,10 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.addRow = function () {
+        if (_this2.state.allEditing) {
+            alert("编辑信息未保存,请先保存编辑信息!");
+            return;
+        }
         //源数据更新前.保存一下..取消的时候使用
         var sourceData = (0, _lodash2["default"])(_this2.state.data);
         var defaultValueKeyValue = _this2.state.defaultValueKeyValue;
@@ -611,8 +616,17 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.updateAll = function () {
+        if (_this2.state.adding) {
+            alert("录入信息未保存,请先保存录入信息!");
+            return;
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
         //源数据更新前.保存一下..取消的时候使用
-        var sourceData = (0, _lodash2["default"])(_this2.state.data);
+        if (!_this2.state.allEditing) {
+            var sourceData = (0, _lodash2["default"])(_this2.state.data);
+            _this2.sourceData = sourceData;
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
         var data = (0, _lodash2["default"])(_this2.state.data);
         data.forEach(function (item) {
             item._edit = true; //是否编辑态
@@ -626,12 +640,23 @@ var _initialiseProps = function _initialiseProps() {
         });
         // this.props.onChange(data)
         _this2.allData = data;
-        _this2.sourceData = sourceData;
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
+        //this.sourceData = sourceData;
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
     };
 
     this.onRowDoubleClick = function (record, index, event) {
+        if (_this2.state.adding) {
+            alert("录入信息未保存,请先保存录入信息!");
+            return;
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf add
         //源数据更新前.保存一下..取消的时候使用
-        var sourceData = (0, _lodash2["default"])(_this2.state.data);
+        if (!_this2.state.allEditing) {
+            var sourceData = (0, _lodash2["default"])(_this2.state.data);
+            _this2.sourceData = sourceData; //记录原数据
+        }
+        //如果已经开启编辑..不再复制整行..20200804 wyf add
         var data = (0, _lodash2["default"])(_this2.state.data);
         var selData = _this2.selectList;
         selData.push(record);
@@ -655,7 +680,9 @@ var _initialiseProps = function _initialiseProps() {
         // this.props.onChange(data)
         _this2.selectList = selData;
         _this2.allData = data;
-        _this2.sourceData = sourceData; //记录原数据
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
+        //this.sourceData = sourceData;//记录原数据
+        //如果已经开启编辑..不再复制整行..20200804 wyf modify
         _this2.props.onRowDoubleClick({ editItem: editItem });
     };
 
@@ -841,6 +868,9 @@ var _initialiseProps = function _initialiseProps() {
                 });
                 _this2.setState({
                     data: _this2.sourceData,
+                    //20200804 wyf modify 取消时切换新增和编辑的状态值
+                    adding: false,
+                    //20200804 wyf modify 取消时切换新增和编辑的状态值
                     allEditing: false,
                     selectData: [],
                     errors: {}
