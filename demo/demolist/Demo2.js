@@ -43,7 +43,7 @@ class Demo2 extends Component {
                 title: "员工姓名",
                 dataIndex: "name",
                 key: "name",
-                width: 120,
+                width: 2400,
                 renderType:'input',
                 required:true,
                 validate:true,
@@ -51,6 +51,63 @@ class Demo2 extends Component {
                     maxLength:'10',
                     defaultValue:'姓名'
                 },
+                children: [
+                    {
+                        title: "姓",
+                        dataIndex: "xing",
+                        key: "xing",
+                        width: 80,
+                        renderType:'input',
+                        required:true,
+                        validate:true,
+                        fieldProps:{
+                            maxLength:'10',
+                            defaultValue:'张'
+                        },
+                    },
+                    {
+                        title: "名",
+                        dataIndex: "ming",
+                        key: "ming",
+                        width: 160,
+                        renderType:'input',
+                        required:true,
+                        validate:true,
+                        fieldProps:{
+                            maxLength:'10',
+                            defaultValue:'张'
+                        },
+                        children: [{
+                                title: "中间名",
+                                dataIndex: "zhong",
+                                key: "zhong",
+                                width: 80,
+                                align: "center",
+                                renderType:'input',
+                                required:false,
+                                validate:true,
+                                fieldProps:{
+                                    maxLength:'10',
+                                    defaultValue:'小'
+                                },
+                            },
+                            {
+                                title: "名",
+                                dataIndex: "last",
+                                key: "last",
+                                width: 80,
+                                align: "center",
+                                renderType:'input',
+                                required:true,
+                                validate:true,
+                                fieldProps:{
+                                    maxLength:'10',
+                                    defaultValue:'三'
+                                },
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 title: "员工性别",
@@ -113,8 +170,7 @@ class Demo2 extends Component {
                     }
                 },
                 render:(text, record, index)=>{
-                    console.log("------" + text);
-                    console.log("------" + (text == "null") + "   " + (text == null));
+
                     let tmp = text;
                     if(tmp == null)
                     {
@@ -392,7 +448,7 @@ class Demo2 extends Component {
 
     onRowDoubleClick=(editItem)=>{
         this.btnDiv.openRowEdit()
-        alert("双击开启行编辑!" + JSON.stringify(editItem));
+        //alert("双击开启行编辑!" + JSON.stringify(editItem));
     }
 
     render () {
@@ -449,6 +505,8 @@ class Demo2 extends Component {
                         console.log('保存，数据如下-----------',selectList)
                         return false;
                     }}
+                    multiHeader={true}
+                    bordered
                     headerScroll={true}
                     title="我是标题"
                     showTitlePanel={false}

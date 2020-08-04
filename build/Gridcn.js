@@ -163,6 +163,11 @@ var Grid = function (_Component) {
             this.setData(nextProps.data, nextProps.exportData);
         }
     };
+
+    //20200804 add 支持多级表头 ..获取多级表头中的最后一级表头
+
+    //20200804 add 支持多级表头
+
     //校验选中数据
 
     //增行
@@ -268,9 +273,39 @@ var _initialiseProps = function _initialiseProps() {
         return value;
     };
 
+    this.getLastColumns = function (columns) {
+        var newColumns = [];
+        columns.forEach(function (item) {
+            if (item.children && item.children.length > 0) {
+                var tmpColumns = _this2.getLastColumns(item.children);
+                // console.log("-------------------------")
+                // console.log(tmpColumns)
+                // console.log("-------------------------")
+                tmpColumns.forEach(function (item) {
+                    newColumns.push(item);
+                });
+            } else {
+                newColumns.push(item);
+            }
+        });
+        return newColumns;
+    };
+
     this.setColumn = function (cl) {
-        var columns = (0, _lodash2["default"])(cl);
+
+        //20200804 add 支持多级表头
+        // let columns = cloneDeep(cl);
+        // let defaultValueKeyValue = {};
+        var cloneColumns = (0, _lodash2["default"])(cl);
         var defaultValueKeyValue = {};
+        //console.log(cloneColumns)
+        var columns = (0, _lodash2["default"])(cloneColumns);
+        if (_this2.props.multiHeader) {
+            columns = _this2.getLastColumns(columns);
+        }
+        //console.log(lastColumns)
+        //20200804 add 支持多级表头
+
         columns.forEach(function (item) {
             var renderType = item.renderType,
                 _item$fieldProps = item.fieldProps,

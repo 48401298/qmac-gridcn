@@ -111,9 +111,43 @@ class Grid extends Component {
         }
     }
 
+    //20200804 add 支持多级表头 ..获取多级表头中的最后一级表头
+    getLastColumns = (columns) => {
+        let newColumns = [];
+        columns.forEach(item =>{
+            if(item.children && item.children.length > 0)
+            {
+                let tmpColumns = this.getLastColumns(item.children);
+                // console.log("-------------------------")
+                // console.log(tmpColumns)
+                // console.log("-------------------------")
+                tmpColumns.forEach(item => {
+                    newColumns.push(item);
+                })
+            } else {
+                newColumns.push(item);
+            }
+        });
+        return newColumns;
+    }
+    //20200804 add 支持多级表头
+
     setColumn=(cl)=>{
-        let columns = cloneDeep(cl);
+
+        //20200804 add 支持多级表头
+        // let columns = cloneDeep(cl);
+        // let defaultValueKeyValue = {};
+        let cloneColumns = cloneDeep(cl);
         let defaultValueKeyValue = {};
+        //console.log(cloneColumns)
+        let columns = cloneDeep(cloneColumns);
+        if(this.props.multiHeader)
+        {
+            columns = this.getLastColumns(columns);
+        }
+        //console.log(lastColumns)
+        //20200804 add 支持多级表头
+
         columns.forEach(item => {
             let {
                 renderType,//渲染类型 input/inputNumber/select/datepicker/year
