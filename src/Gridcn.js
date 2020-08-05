@@ -144,6 +144,8 @@ class Grid extends Component {
         if(this.props.multiHeader)
         {
             editColumns = this.getLastColumns(columns);
+        } else {
+            editColumns = columns;
         }
 
         //console.log(lastColumns)

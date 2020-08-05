@@ -302,6 +302,8 @@ var _initialiseProps = function _initialiseProps() {
         var editColumns = (0, _lodash2["default"])(columns);
         if (_this2.props.multiHeader) {
             editColumns = _this2.getLastColumns(columns);
+        } else {
+            editColumns = columns;
         }
 
         //console.log(lastColumns)

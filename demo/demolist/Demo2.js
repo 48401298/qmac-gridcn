@@ -43,7 +43,7 @@ class Demo2 extends Component {
                 title: "员工姓名",
                 dataIndex: "name",
                 key: "name",
-                width: 2400,
+                width: 240,
                 renderType:'input',
                 required:true,
                 validate:true,
