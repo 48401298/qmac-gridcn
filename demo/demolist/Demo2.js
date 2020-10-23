@@ -15,29 +15,36 @@ class Demo2 extends Component {
     constructor(props){
         super(props);
         this.column = [
+            // {
+            //     title: "员工编号",
+            //     dataIndex: "code",
+            //     key: "code",
+            //     width: 150,
+            // },
+            // {
+            //     title: "员工编号",
+            //     dataIndex: "code",
+            //     key: "code",
+            //     width: 150
+            // },
+            // {
+            //     title: "员工编号",
+            //     dataIndex: "code",
+            //     key: "code",
+            //     width: 150
+            // },
             {
                 title: "员工编号",
                 dataIndex: "code",
                 key: "code",
                 width: 150,
-            },
-            {
-                title: "员工编号",
-                dataIndex: "code",
-                key: "code",
-                width: 150
-            },
-            {
-                title: "员工编号",
-                dataIndex: "code",
-                key: "code",
-                width: 150
-            },
-            {
-                title: "员工编号",
-                dataIndex: "code",
-                key: "code",
-                width: 150
+                renderType:'input',
+                required:true,
+                validate:true,
+                fieldProps:{
+                    maxLength:'10',
+                    defaultValue:'姓名'
+                },
             },
             {
                 title: "员工姓名",
@@ -355,6 +362,7 @@ class Demo2 extends Component {
             items:10
         }
     }
+
     /**
      * 跳转指定页码
      *
@@ -468,6 +476,27 @@ class Demo2 extends Component {
         //alert("双击开启行编辑!" + JSON.stringify(editItem));
     }
 
+    selChangeCascade=(allData) =>{
+        for (let i=0;i<allData.length;i++) {
+            console.log(allData[i].allowanceType );
+        }
+        if(allData.length > 0)
+        {
+            for (let i=0;i<allData.length;i++)
+            {
+                if(allData[i].month === 6)
+                {
+                    allData[i].allowanceType = "3"
+                }
+            }
+        }
+        console.log("---------------------");
+        //alert(JSON.stringify(allData));
+        for (let i=0;i<allData.length;i++) {
+            console.log(allData[i].allowanceType );
+        }
+    }
+
     render () {
         let paginationObj = {
             activePage: this.state.activePage,//当前页
@@ -528,7 +557,9 @@ class Demo2 extends Component {
                     title="我是标题"
                     showTitlePanel={false}
                     openRowEdit={this.openRowEdit}
+                    editable={true}
                     onRowDoubleClick={this.onRowDoubleClick}
+                    onChange={this.selChangeCascade}
                 />
             </div>
         )

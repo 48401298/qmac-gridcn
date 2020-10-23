@@ -88,7 +88,7 @@ class NumberField extends Component {
         this.setState({ value, flag: status == 'edit' }, () => {
             this.validate();
         });
-        value = value?parseFloat(value):'';
+        value = value?parseFloat(value):'0';//为空时设置值为0
         if(value > max || value < 0){
             this.setState({
                 required:true,

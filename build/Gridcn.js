@@ -132,7 +132,8 @@ var Grid = function (_Component) {
             pasting: false, //正在粘贴
             showTitlePanel: _this.props.showTitlePanel != undefined ? _this.props.showTitlePanel : false, //是否显示tabler header
             rowEditing: false, //是否开启行编辑
-            sourceData: [] //编辑前记录原数据
+            sourceData: [], //编辑前记录原数据
+            editable: _this.props.editable != undefined ? _this.props.editable : true
         };
         _this.oldColumns = props.columns;
         _this.selectList = []; //选中的数据
@@ -648,6 +649,11 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.onRowDoubleClick = function (record, index, event) {
+        //表格是否允许编辑
+        if (!_this2.state.editable) {
+            return false;
+        }
+
         if (_this2.state.adding) {
             alert("录入信息未保存,请先保存录入信息!");
             return;
@@ -882,6 +888,7 @@ var _initialiseProps = function _initialiseProps() {
                 _this2.errors = {};
                 _this2.selectList = [];
                 _this2.sourceData = [];
+                _this2.props.cancel(); //取消点击确定时的回调
             },
             onCancel: function onCancel() {},
             confirmType: 'two'

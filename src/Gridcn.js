@@ -55,6 +55,7 @@ class Grid extends Component {
             showTitlePanel: (this.props.showTitlePanel!=undefined?this.props.showTitlePanel:false),//是否显示tabler header
             rowEditing: false,//是否开启行编辑
             sourceData:[],//编辑前记录原数据
+            editable: (this.props.editable!=undefined?this.props.editable:true)
         }
         this.oldColumns = props.columns;
         this.selectList = [];//选中的数据
@@ -489,6 +490,12 @@ class Grid extends Component {
 
     //开启选中行的编辑
     onRowDoubleClick=(record, index, event)=>{
+        //表格是否允许编辑
+        if(!this.state.editable)
+        {
+            return false
+        }
+
         if(this.state.adding)
         {
             alert("录入信息未保存,请先保存录入信息!");
@@ -731,8 +738,10 @@ class Grid extends Component {
                 this.errors = {};
                 this.selectList = [];
                 this.sourceData = [];
+                this.props.cancel();//取消点击确定时的回调
             },
             onCancel:()=>{
+
             },
             confirmType:'two'
         })

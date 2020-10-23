@@ -106,7 +106,7 @@ var NumberField = function (_Component) {
             _this.setState({ value: value, flag: status == 'edit' }, function () {
                 _this.validate();
             });
-            value = value ? parseFloat(value) : '';
+            value = value ? parseFloat(value) : '0'; //为空时设置值为0
             if (value > max || value < 0) {
                 _this.setState({
                     required: true
