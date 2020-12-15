@@ -744,3 +744,20 @@ $borderColor2:#d0d0d0;
     border: 1px solid #ccc;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
+
+.footerSpan:hover{
+    //text-decoration:underline;
+    color: #f53c32;
+}
+
+.footerLink {
+    text-decoration: none;
+    color: #f53c32;
+}
+
+.rc-calendar-footer-extra {
+    width: 60px;
+    position: relative;
+    margin-bottom: -34px;
+    margin-left: 5px;
+}

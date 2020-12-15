@@ -57,7 +57,6 @@ class DateField extends Component {
             value: moment(props.value),//组件的值
             flag: false,//是否编辑过
             error: false//校验是否有错误
-
         }
     }
     /**
@@ -123,6 +122,25 @@ class DateField extends Component {
             onValidate && onValidate(field, fields, index);
         });
     }
+
+    //扩展按钮
+    renderFooter = () => {
+        let {customValue} = this.props.fieldProps;
+        if(customValue)
+        {
+            return <a href='#' className="footerLink" onClick={() =>{
+                let { onChange, field, index, status } = this.props;
+                //处理是否有修改状态改变、状态同步之后校验输入是否正确
+                this.setState({ value : customValue }, () => {
+                    this.validate();
+                });
+                //回调外部函数
+                onChange && onChange(field, customValue, index);
+            }}>不涉及</a>;
+        }
+    }
+    //扩展按钮
+
     render() {
         let { value, error, flag } = this.state;
 
@@ -144,6 +162,8 @@ class DateField extends Component {
                     className={className}
                     value={value}
                     onChange={this.handlerChange}
+                    open={false}
+                    renderFooter={this.renderFooter}
                 />
             </FieldWrap>
         );

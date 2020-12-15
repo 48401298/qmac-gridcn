@@ -11,6 +11,8 @@ import moment from 'moment';
 import Button from 'bee-button';
 import BtnDiv from '../BtnDiv'
 
+const formatDateRule = "YYYY-MM-DD"; // 格式化日期
+
 class Demo2 extends Component {
     constructor(props){
         super(props);
@@ -159,6 +161,38 @@ class Demo2 extends Component {
                 className: 'column-number-right ', // 靠右对齐
                 renderType:'inputNumber',
                 required:true,
+            },
+            {
+                title: "默认日期",
+                dataIndex: "sampleDate",
+                key: "sampleDate",
+                fixed: "left",
+                width: 200,
+                renderType: 'datepicker',
+                required: true,
+                fieldProps: {
+                    showClose: false,
+                    showDateInput:false,
+                    dateFormat: formatDateRule,
+                    defaultValue: moment(new Date()).format(formatDateRule),
+                    normalize: (value) => {
+                        if (value && value.format) {
+                            return value.format(formatDateRule)
+                        } else {
+                            return value
+                        }
+                    },
+                    customValue: "1970-01-01"
+                },
+                render: (text, record, index) => {
+                    let tmp = text;
+                    if(tmp == null)
+                    {
+                        tmp = new Date();
+                    }
+                    return moment(tmp).format(formatDateRule);
+                    // return text == "1970-01-01" ? "不涉及" : moment(tmp).format(formatDateRule)
+                }
             },
             {
                 title: "年份(时间)",

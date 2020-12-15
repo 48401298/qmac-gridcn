@@ -151,11 +151,35 @@ var DateField = function (_Component) {
             });
         };
 
+        _this.renderFooter = function () {
+            var customValue = _this.props.fieldProps.customValue;
+
+            if (customValue) {
+                return _react2["default"].createElement(
+                    'a',
+                    { href: '#', className: 'footerLink', onClick: function onClick() {
+                            var _this$props3 = _this.props,
+                                onChange = _this$props3.onChange,
+                                field = _this$props3.field,
+                                index = _this$props3.index,
+                                status = _this$props3.status;
+                            //处理是否有修改状态改变、状态同步之后校验输入是否正确
+
+                            _this.setState({ value: customValue }, function () {
+                                _this.validate();
+                            });
+                            //回调外部函数
+                            onChange && onChange(field, customValue, index);
+                        } },
+                    '\u4E0D\u6D89\u53CA'
+                );
+            }
+        };
+
         _this.state = {
             value: (0, _moment2["default"])(props.value), //组件的值
             flag: false, //是否编辑过
             error: false //校验是否有错误
-
         };
         return _this;
     }
@@ -192,6 +216,11 @@ var DateField = function (_Component) {
      */
 
 
+    //扩展按钮
+
+
+    //扩展按钮
+
     DateField.prototype.render = function render() {
         var _state = this.state,
             value = _state.value,
@@ -220,7 +249,9 @@ var DateField = function (_Component) {
             }, fieldProps, {
                 className: className,
                 value: value,
-                onChange: this.handlerChange
+                onChange: this.handlerChange,
+                open: false,
+                renderFooter: this.renderFooter
             }))
         );
     };
