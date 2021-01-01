@@ -1,3 +1,8 @@
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/48401298/qmac-gridcn/compare/v0.6.0...v0.6.1) (2021-01-01)
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/48401298/qmac-gridcn/compare/v0.5.9...v0.6.0) (2021-01-01)
 
