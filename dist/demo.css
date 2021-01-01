@@ -13901,7 +13901,7 @@ li.rc-time-picker-panel-select-option-disabled:hover {
   color: #f53c32; }
 
 .rc-calendar-footer-extra {
-  width: 60px;
+  /*width: 60px;*/
   position: relative;
   margin-bottom: -34px;
   margin-left: 5px; }
