@@ -15283,15 +15283,3 @@ li.rc-time-picker-panel-select-option-disabled:hover {
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); }
-
-.footerSpan:hover {
-  color: #f53c32; }
-
-.footerLink {
-  text-decoration: none;
-  color: #f53c32; }
-
-.rc-calendar-footer-extra {
-  position: relative;
-  margin-bottom: -34px;
-  margin-left: 5px; }
